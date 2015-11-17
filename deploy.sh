@@ -17,7 +17,10 @@ cat ./prosody.cfg.lua | sed "s/%%MYSQL_PROSODY_PASSWORD%%/$MYSQL_PROSODY_PASSWOR
 # deploy mod_mam
 apt-get install -V -y mercurial
 hg clone http://hg.prosody.im/prosody-modules/ || true
-cp -r prosody-modules/mod_mam /usr/lib/prosody/modules/
+cp -r \
+	prosody-modules/mod_mam \
+	prosody-modules/mod_http_upload \
+	/usr/lib/prosody/modules/
 
 # Create MySQL DB
 echo "

@@ -72,6 +72,7 @@ modules_enabled = {
 
 		"mam";
 		"carbons";
+		"http_upload";
 }
 
 default_archive_policy = true;
