@@ -46,3 +46,4 @@ chmod u=r,g=,o= /var/lib/prosody/decent.im.*
 
 service prosody restart
 
+./deploy_site.sh
