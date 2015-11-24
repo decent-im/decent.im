@@ -150,6 +150,11 @@ log = {
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.
 
+ssl = {
+	key = "/var/lib/prosody/decent.im.key";
+	certificate = "/var/lib/prosody/decent.im.crt";
+}
+
 VirtualHost "decent.im"
 	enabled = true -- Remove this line to enable this host
 
