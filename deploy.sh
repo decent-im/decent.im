@@ -16,8 +16,8 @@ echo "$DOMAIN_NAME" > /etc/hostname
 cp /etc/prosody/prosody.cfg.lua{,.bkp}
 cat ./prosody.cfg.lua | sed \
 	-e "s/%%MYSQL_PROSODY_PASSWORD%%/$MYSQL_PROSODY_PASSWORD/g" \
-	-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
 	-e "s/%%ADMIN_JID%%/$ADMIN_JID/g" \
+	-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
 	> /etc/prosody/prosody.cfg.lua
 
 # deploy mod_mam
