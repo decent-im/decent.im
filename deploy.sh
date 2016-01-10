@@ -9,9 +9,8 @@ wget https://prosody.im/files/prosody-debian-packages.key -O- | sudo apt-key add
 apt-get update
 apt-get install -V -y prosody-0.10 lua-dbi-mysql lua-zlib libevent-2.0 lua-event
 
+MYSQL_PROSODY_PASSWORD="`pwgen 16 1`"
 source ./secret/env.sh || source ./secret_env.sh.sample
-# TODO random MYSQL_PROSODY_PASSWORD
-
 source ./env.sh || source ./env.sh.sample
 
 echo "$DOMAIN_NAME" > /etc/hostname
