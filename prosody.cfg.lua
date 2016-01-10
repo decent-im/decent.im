@@ -58,7 +58,7 @@ modules_enabled = {
 		--"admin_telnet"; -- Opens telnet console interface on localhost port 5582
 
 	-- HTTP modules
-		--"bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
+		"bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
 		--"http_files"; -- Serve static files from a directory over HTTP
 
 	-- Other specific functionality
@@ -73,6 +73,8 @@ modules_enabled = {
 		"mam";
 		"carbons";
 		"http_upload";
+		"websocket";
+		"pubsub";
 }
 
 default_archive_policy = true;
@@ -145,6 +147,9 @@ log = {
 	error = "/var/log/prosody/prosody.err";
 	"*syslog";
 }
+
+cross_domain_bosh = true;
+cross_domain_websocket = true;
 
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
