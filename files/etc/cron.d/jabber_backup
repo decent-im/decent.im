@@ -1,0 +1,2 @@
+# m hh dom mon dow user       command
+0   0   *   *   *  root       /usr/local/sbin/jabber_db_backup_daily.sh

@@ -8,6 +8,7 @@ apt-get update
 apt-get install -V -y prosody-0.10 lua-dbi-mysql lua-zlib libevent-2.0 lua-event
 
 source `dirname $0`/secret/env.sh || source `dirname $0`/secret_env.sh.sample
+# TODO random MYSQL_PROSODY_PASSWORD
 
 source `dirname $0`/env.sh || source `dirname $0`/env.sh.sample
 
@@ -38,6 +39,8 @@ mysql-server-5.6 mysql-server/root_password password $MYSQL_ROOT_PASSWORD
 mysql-server-5.6 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD
 " | debconf-set-selections
 apt-get install -V -y mysql-server
+
+# TODO Don't drop&recreate if exists
 echo 'drop database prosody;' | mysql -uroot -p"$MYSQL_ROOT_PASSWORD" || true
 echo '
 create database prosody;
@@ -59,3 +62,13 @@ chmod u=r,g=,o= /var/lib/prosody/*
 service prosody restart
 
 ./deploy_site.sh
+
+if [[ -e ./secret/jabber_backup.pub ]]
+then
+	gpg --import ./secret/jabber_backup.pub
+	# Save MySQL password in easily parsable way for regular backup job
+	env | egrep 'MYSQL_PROSODY_PASSWORD|BACKUP_PGP_KEYID' > /etc/jabber/backup.cfg
+else
+	# Disable backing up cleanly
+	sed -i -e 's/^/#/' /etc/cron.d/jabber_backup
+fi
