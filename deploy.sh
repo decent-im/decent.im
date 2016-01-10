@@ -42,13 +42,16 @@ mysql-server-5.6 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD
 " | debconf-set-selections
 apt-get install -V -y mysql-server
 
-# TODO Don't drop&recreate if exists
-echo 'drop database prosody;' | mysql -uroot -p"$MYSQL_ROOT_PASSWORD" || true
-echo '
-create database prosody;
-create user `prosody`@`localhost` identified by "'$MYSQL_PROSODY_PASSWORD'";
-grant all on `prosody`.* to `prosody`@`localhost`;
-' | mysql -uroot -p"$MYSQL_ROOT_PASSWORD"
+if echo 'create database prosody;' | mysql -uroot -p"$MYSQL_ROOT_PASSWORD"
+then
+	echo '
+	create user `prosody`@`localhost` identified by "'$MYSQL_PROSODY_PASSWORD'";
+	grant all on `prosody`.* to `prosody`@`localhost`;
+	' | mysql -uroot -p"$MYSQL_ROOT_PASSWORD"
+
+	# Restore users, chat archives, etc
+	./db_restore.sh
+fi
 
 # Deploy or issue certs
 # Certs are deployed from secret/files/var/lib/prosody
@@ -57,9 +60,6 @@ grant all on `prosody`.* to `prosody`@`localhost`;
 # But Let's Encrypt is recommended
 chown prosody.prosody /var/lib/prosody/*
 chmod u=r,g=,o= /var/lib/prosody/*
-
-# Restore users, chat archives, etc
-./db_restore.sh
 
 service prosody restart
 
