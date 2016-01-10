@@ -2,22 +2,24 @@
 
 set -e
 
+cd `dirname $0`
+
 echo deb http://packages.prosody.im/debian `lsb_release -sc` main > /etc/apt/sources.list.d/prosody.list
 wget https://prosody.im/files/prosody-debian-packages.key -O- | sudo apt-key add -
 apt-get update
 apt-get install -V -y prosody-0.10 lua-dbi-mysql lua-zlib libevent-2.0 lua-event
 
-source `dirname $0`/secret/env.sh || source `dirname $0`/secret_env.sh.sample
+source ./secret/env.sh || source ./secret_env.sh.sample
 # TODO random MYSQL_PROSODY_PASSWORD
 
-source `dirname $0`/env.sh || source `dirname $0`/env.sh.sample
+source ./env.sh || source ./env.sh.sample
 
 echo "$DOMAIN_NAME" > /etc/hostname
 
 # Deploy all tracked files
-rsync -av `dirname $0`/files/ /
+rsync -av ./files/ /
 # Deploy all tracked files from secret repository
-rsync -av `dirname $0`/secret/files/ / || true
+rsync -av ./secret/files/ / || true
 
 cat /etc/prosody/prosody.cfg.lua.template | sed \
 	-e "s/%%MYSQL_PROSODY_PASSWORD%%/$MYSQL_PROSODY_PASSWORD/g" \
