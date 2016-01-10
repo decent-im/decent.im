@@ -73,3 +73,5 @@ else
 	# Disable backing up cleanly
 	sed -i -e 's/^/#/' /etc/cron.d/jabber_backup
 fi
+
+./checks.sh
