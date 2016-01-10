@@ -2,8 +2,6 @@
 
 set -e
 
-echo "decent.im" > /etc/hostname
-
 echo deb http://packages.prosody.im/debian vivid main > /etc/apt/sources.list.d/prosody.list
 wget https://prosody.im/files/prosody-debian-packages.key -O- | sudo apt-key add -
 apt-get update
@@ -11,8 +9,16 @@ apt-get install -V -y prosody-0.10 lua-dbi-mysql lua-zlib libevent-2.0 lua-event
 
 . ./secret/env.sh
 
+source `dirname $0`/env.sh || source `dirname $0`/env.sh.sample
+
+echo "$DOMAIN_NAME" > /etc/hostname
+
 cp /etc/prosody/prosody.cfg.lua{,.bkp}
-cat ./prosody.cfg.lua | sed "s/%%MYSQL_PROSODY_PASSWORD%%/$MYSQL_PROSODY_PASSWORD/" > /etc/prosody/prosody.cfg.lua
+cat ./prosody.cfg.lua | sed \
+	-e "s/%%MYSQL_PROSODY_PASSWORD%%/$MYSQL_PROSODY_PASSWORD/g" \
+	-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
+	-e "s/%%ADMIN_JID%%/$ADMIN_JID/g" \
+	> /etc/prosody/prosody.cfg.lua
 
 # deploy mod_mam
 apt-get install -V -y mercurial
@@ -36,10 +42,10 @@ grant all on `prosody`.* to `prosody`@`localhost`;
 ' | mysql -uroot -p"$MYSQL_ROOT_PASSWORD"
 
 # Deploy or issue certs
-# prosodyctl cert generate decent.im  # interactive, requires manual actions
-cp secret/decent.im.{cnf,crt,key} /var/lib/prosody/
-chown prosody.prosody /var/lib/prosody/decent.im.*
-chmod u=r,g=,o= /var/lib/prosody/decent.im.*
+# prosodyctl cert generate $DOMAIN_NAME  # interactive, requires manual actions
+cp secret/${DOMAIN_NAME}.{cnf,crt,key} /var/lib/prosody/
+chown prosody.prosody /var/lib/prosody/*
+chmod u=r,g=,o= /var/lib/prosody/*
 
 # Restore users, chat archives, etc
 ./db_restore.sh

@@ -18,8 +18,8 @@
 -- This is a (by default, empty) list of accounts that are admins
 -- for the server. Note that you must create the accounts separately
 -- (see http://prosody.im/doc/creating_accounts for info)
--- Example: admins = { "user1@decent.im", "user2@example.net" }
-admins = { "andrey.utkin@decent.im" }
+-- Example: admins = { "user1@example.net", "user2@example.net" }
+admins = { "%%ADMIN_JID%%" }
 
 -- Enable use of libevent for better performance under high load
 -- For more information see: http://prosody.im/doc/libevent
@@ -156,11 +156,11 @@ cross_domain_websocket = true;
 -- Settings under each VirtualHost entry apply *only* to that host.
 
 ssl = {
-	key = "/var/lib/prosody/decent.im.key";
-	certificate = "/var/lib/prosody/decent.im.crt";
+	key = "/var/lib/prosody/%%DOMAIN_NAME%%.key";
+	certificate = "/var/lib/prosody/%%DOMAIN_NAME%%.crt";
 }
 
-VirtualHost "decent.im"
+VirtualHost "%%DOMAIN_NAME%%"
 	enabled = true -- Remove this line to enable this host
 
 	-- Assign this host a certificate for TLS, otherwise it would use the one
@@ -168,8 +168,8 @@ VirtualHost "decent.im"
 	-- Note that old-style SSL on port 5223 only supports one certificate, and will always
 	-- use the global one.
 	ssl = {
-		key = "/var/lib/prosody/decent.im.key";
-		certificate = "/var/lib/prosody/decent.im.crt";
+		key = "/var/lib/prosody/%%DOMAIN_NAME%%.key";
+		certificate = "/var/lib/prosody/%%DOMAIN_NAME%%.crt";
 	}
 
 ------ Components ------
@@ -177,11 +177,11 @@ VirtualHost "decent.im"
 -- like multi-user conferences, and transports.
 -- For more information on components, see http://prosody.im/doc/components
 
----Set up a MUC (multi-user chat) room server on conference.decent.im:
-Component "conference.decent.im" "muc"
+---Set up a MUC (multi-user chat) room server on conference.%%DOMAIN_NAME%%:
+Component "conference.%%DOMAIN_NAME%%" "muc"
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
-Component "proxy.decent.im" "proxy65"
+Component "proxy.%%DOMAIN_NAME%%" "proxy65"
 
 ---Set up an external component (default component port is 5347)
 --
@@ -189,5 +189,5 @@ Component "proxy.decent.im" "proxy65"
 -- transports to other networks like ICQ, MSN and Yahoo. For more info
 -- see: http://prosody.im/doc/components#adding_an_external_component
 --
-Component "gateway.decent.im"
+Component "gateway.%%DOMAIN_NAME%%"
 --	component_secret = "password"
