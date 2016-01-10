@@ -178,10 +178,10 @@ VirtualHost "decent.im"
 -- For more information on components, see http://prosody.im/doc/components
 
 ---Set up a MUC (multi-user chat) room server on conference.decent.im:
---Component "conference.decent.im" "muc"
+Component "conference.decent.im" "muc"
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
---Component "proxy.decent.im" "proxy65"
+Component "proxy.decent.im" "proxy65"
 
 ---Set up an external component (default component port is 5347)
 --
@@ -189,5 +189,5 @@ VirtualHost "decent.im"
 -- transports to other networks like ICQ, MSN and Yahoo. For more info
 -- see: http://prosody.im/doc/components#adding_an_external_component
 --
---Component "gateway.decent.im"
+Component "gateway.decent.im"
 --	component_secret = "password"
