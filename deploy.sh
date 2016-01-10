@@ -7,7 +7,7 @@ wget https://prosody.im/files/prosody-debian-packages.key -O- | sudo apt-key add
 apt-get update
 apt-get install -V -y prosody-0.10 lua-dbi-mysql lua-zlib libevent-2.0 lua-event
 
-. ./secret/env.sh
+source `dirname $0`/secret/env.sh || source `dirname $0`/secret_env.sh.sample
 
 source `dirname $0`/env.sh || source `dirname $0`/env.sh.sample
 
