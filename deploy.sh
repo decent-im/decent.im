@@ -2,7 +2,7 @@
 
 set -e
 
-echo deb http://packages.prosody.im/debian vivid main > /etc/apt/sources.list.d/prosody.list
+echo deb http://packages.prosody.im/debian `lsb_release -sc` main > /etc/apt/sources.list.d/prosody.list
 wget https://prosody.im/files/prosody-debian-packages.key -O- | sudo apt-key add -
 apt-get update
 apt-get install -V -y prosody-0.10 lua-dbi-mysql lua-zlib libevent-2.0 lua-event
