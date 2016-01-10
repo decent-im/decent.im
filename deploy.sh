@@ -13,8 +13,12 @@ source `dirname $0`/env.sh || source `dirname $0`/env.sh.sample
 
 echo "$DOMAIN_NAME" > /etc/hostname
 
-cp /etc/prosody/prosody.cfg.lua{,.bkp}
-cat ./prosody.cfg.lua | sed \
+# Deploy all tracked files
+rsync -av `dirname $0`/files/ /
+# Deploy all tracked files from secret repository
+rsync -av `dirname $0`/secret/files/ / || true
+
+cat /etc/prosody/prosody.cfg.lua.template | sed \
 	-e "s/%%MYSQL_PROSODY_PASSWORD%%/$MYSQL_PROSODY_PASSWORD/g" \
 	-e "s/%%ADMIN_JID%%/$ADMIN_JID/g" \
 	-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
@@ -42,8 +46,10 @@ grant all on `prosody`.* to `prosody`@`localhost`;
 ' | mysql -uroot -p"$MYSQL_ROOT_PASSWORD"
 
 # Deploy or issue certs
-# prosodyctl cert generate $DOMAIN_NAME  # interactive, requires manual actions
-cp secret/${DOMAIN_NAME}.{cnf,crt,key} /var/lib/prosody/
+# Certs are deployed from secret/files/var/lib/prosody
+# Alternatively, you can generate them manually and interactively by command
+# prosodyctl cert generate $DOMAIN_NAME
+# But Let's Encrypt is recommended
 chown prosody.prosody /var/lib/prosody/*
 chmod u=r,g=,o= /var/lib/prosody/*
 
