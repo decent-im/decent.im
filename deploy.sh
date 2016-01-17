@@ -74,4 +74,6 @@ else
 	sed -i -e 's/^/#/' /etc/cron.d/jabber_backup
 fi
 
+apt-get install -y unattended-upgrades
+
 ./checks.sh
