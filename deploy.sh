@@ -34,6 +34,13 @@ cp -r \
 	prosody-modules/mod_http_upload \
 	/usr/lib/prosody/modules/
 
+# deploy mod_turncredentials
+apt-get install -V -y coturn
+echo 'TURNSERVER_ENABLED=1' > /etc/default/coturn
+service coturn restart
+wget https://github.com/otalk/mod_turncredentials/raw/master/mod_turncredentials.lua \
+	     -O /usr/lib/prosody/modules/mod_turncredentials.lua
+
 # Create MySQL DB
 echo "
 mysql-server-5.6 mysql-server/root_password password $MYSQL_ROOT_PASSWORD

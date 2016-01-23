@@ -75,6 +75,7 @@ modules_enabled = {
 		"http_upload";
 		"websocket";
 		"pubsub";
+		"turncredentials";
 }
 
 default_archive_policy = true;
