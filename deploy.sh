@@ -35,6 +35,7 @@ cp -r \
 	prosody-modules/mod_csi \
 	prosody-modules/mod_throttle_presence \
 	prosody-modules/mod_filter_chatstates \
+	prosody-modules/mod_smacks \
 	/usr/lib/prosody/modules/
 
 # deploy mod_turncredentials

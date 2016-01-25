@@ -81,6 +81,9 @@ modules_enabled = {
 		"csi";
 		"throttle_presence";
 		"filter_chatstates";
+
+		-- XEP-0198: Stream Management
+		"smacks";
 }
 
 default_archive_policy = true;
