@@ -32,6 +32,9 @@ hg clone http://hg.prosody.im/prosody-modules/ || true
 cp -r \
 	prosody-modules/mod_mam \
 	prosody-modules/mod_http_upload \
+	prosody-modules/mod_csi \
+	prosody-modules/mod_throttle_presence \
+	prosody-modules/mod_filter_chatstates \
 	/usr/lib/prosody/modules/
 
 # deploy mod_turncredentials

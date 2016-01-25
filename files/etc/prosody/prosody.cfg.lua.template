@@ -76,6 +76,11 @@ modules_enabled = {
 		"websocket";
 		"pubsub";
 		"turncredentials";
+
+		-- XEP-0352: Client State Indication
+		"csi";
+		"throttle_presence";
+		"filter_chatstates";
 }
 
 default_archive_policy = true;
