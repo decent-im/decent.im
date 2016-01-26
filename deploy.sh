@@ -75,6 +75,25 @@ service prosody restart
 
 ./deploy_site.sh
 
+pushd /var/www/html
+git clone https://github.com/jappix/jappix.git
+mkdir jappix/store/conf
+cp /etc/jabber/jappix/*.xml jappix/store/conf
+cat /etc/jabber/jappix/hosts.xml.template | sed \
+	-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
+	> jappix/store/conf/hosts.xml
+
+git clone https://github.com/jsxc/jsxc.git
+for x in `grep 'url:' jsxc/example -RnI -l`
+do
+	sed -i "$x" \
+	-e "s|url: '/http-bind/'|url: 'https://$DOMAIN_NAME:5281/http-bind/'|" \
+	-e "s|localhost|$DOMAIN_NAME|" \
+	;
+done
+
+popd # /var/www/html
+
 if [[ -e ./secret/jabber_backup.pub ]]
 then
 	gpg --import ./secret/jabber_backup.pub
