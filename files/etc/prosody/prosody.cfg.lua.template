@@ -188,8 +188,8 @@ VirtualHost "%%DOMAIN_NAME%%"
 -- like multi-user conferences, and transports.
 -- For more information on components, see http://prosody.im/doc/components
 
----Set up a MUC (multi-user chat) room server on conference.%%DOMAIN_NAME%%:
-Component "muc.%%DOMAIN_NAME%%" "muc"
+---Set up a MUC (multi-user chat) room server:
+Component "chat.%%DOMAIN_NAME%%" "muc"
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
 Component "proxy.%%DOMAIN_NAME%%" "proxy65"
