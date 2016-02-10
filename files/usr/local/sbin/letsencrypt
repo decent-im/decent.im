@@ -1,0 +1,35 @@
+#!/bin/bash
+set -e
+
+. /etc/jabber/config
+
+
+LOCATION=/usr/local/src/letsencrypt
+
+if ! [[ -e $LOCATION ]]
+then
+	git clone https://github.com/letsencrypt/letsencrypt $LOCATION
+else
+	GIT_DIR=$LOCATION/.git git pull
+fi
+
+$LOCATION/letsencrypt-auto certonly --non-interactive --webroot -w /var/www/html/ -d $D -d chat.$D -d pubsub.$D -d proxy.$D -d gateway.$D --agree-tos --email $ADMIN_EMAIL
+
+# /etc/letsencrypt is u=rwx,g=,o= owned by root, so for security and simplicity reasons it is easier to copy certs to apps' dirs than to use symlinks
+
+chmod u=rx,g=,o= /var/lib/prosody/
+chown prosody.root /var/lib/prosody/
+cp /etc/letsencrypt/live/$D/* /var/lib/prosody/
+cp /etc/letsencrypt/live/$D/privkey.pem /var/lib/prosody/${D}.key
+cp /etc/letsencrypt/live/$D/fullchain.pem /var/lib/prosody/${D}.crt
+service prosody restart
+
+mkdir -p /etc/nginx/certs
+chown www-data.root /etc/nginx/certs/
+chmod u=rx,g=,o= /etc/nginx/certs/
+cp /etc/letsencrypt/live/$D/* /etc/nginx/certs/
+echo '
+ssl_certificate /etc/nginx/certs/fullchain.pem;
+ssl_certificate_key /etc/nginx/certs/privkey.pem;
+' > /etc/nginx/conf.d/certs.conf
+service nginx restart

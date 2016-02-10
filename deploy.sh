@@ -12,8 +12,17 @@ apt-get install -V -y prosody-0.10 lua-dbi-mysql lua-zlib libevent-2.0 lua-event
 MYSQL_PROSODY_PASSWORD="`pwgen 16 1`"
 source ./secret/env.sh || source ./secret_env.sh.sample
 source ./env.sh || source ./env.sh.sample
+source /etc/jabber/config || true
 
 echo "$DOMAIN_NAME" > /etc/hostname
+
+mkdir -p /etc/jabber
+chmod u=rwx,g=,o= /etc/jabber
+echo "
+DOMAIN_NAME=$DOMAIN_NAME
+D=\$DOMAIN_NAME
+ADMIN_EMAIL=$ADMIN_EMAIL
+" > /etc/jabber/config
 
 # Deploy all tracked files
 rsync -av ./files/ /
@@ -63,15 +72,8 @@ then
 	./db_restore.sh
 fi
 
-# Deploy or issue certs
-# Certs are deployed from secret/files/var/lib/prosody
-# Alternatively, you can generate them manually and interactively by command
-# prosodyctl cert generate $DOMAIN_NAME
-# But Let's Encrypt is recommended
-chown prosody.prosody /var/lib/prosody/*
-chmod u=r,g=,o= /var/lib/prosody/*
-
-service prosody restart
+# Issue and deploy certs for Prosody and Nginx
+/usr/local/sbin/letsencrypt
 
 ./deploy_site.sh
 
