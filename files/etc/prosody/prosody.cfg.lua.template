@@ -87,6 +87,7 @@ modules_enabled = {
 }
 
 default_archive_policy = true;
+archive_expires_after = "2m"
 
 -- These modules are auto-loaded, but should you want
 -- to disable them then uncomment them here:
