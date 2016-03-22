@@ -1,0 +1,24 @@
+#!/bin/bash
+
+. `dirname $0`/util.sh
+
+DOMAIN_NAME="`hostname -f`"
+
+echo "
+export DOMAIN_NAME='$DOMAIN_NAME'
+export D=\"\$DOMAIN_NAME\"
+export GITHUB_PAGES_URL='decent-im.github.io'
+
+export XMPP_DB_USER='decent.im'
+export XMPP_DB_NAME='decent.im'
+export XMPP_DB_PASSWORD='`random_string`'
+
+export TRANSPORT_DB_USER='decent.im.transport'
+export TRANSPORT_DB_NAME='decent.im.transport'
+export TRANSPORT_DB_PASSWORD='`random_string`'
+
+export ADMIN_JID='admin@$DOMAIN_NAME'
+
+# Used for LetsEncrypt certs. You may want to edit this
+export ADMIN_EMAIL='xmpp@$DOMAIN_NAME'
+" > config
