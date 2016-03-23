@@ -2,10 +2,16 @@
 
 . config
 
+# TODO Auto-catch %%STUFF%% and replace with envvar
+
 for FILE_TEMPLATE in `find files | grep template`
 do
 	FILE=${FILE_TEMPLATE/.template/}
 	cat $FILE_TEMPLATE | sed \
+		\
+		-e "s/%%ADMIN_JID%%/$ADMIN_JID/g" \
+		-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
+		\
 		-e "s/%%XMPP_DB_NAME%%/$XMPP_DB_NAME/g" \
 		-e "s/%%XMPP_DB_USER%%/$XMPP_DB_USER/g" \
 		-e "s/%%XMPP_DB_PASS%%/$XMPP_DB_PASS/g" \
@@ -14,8 +20,7 @@ do
 		-e "s/%%TRANSPORT_DB_USER%%/$TRANSPORT_DB_USER/g" \
 		-e "s/%%TRANSPORT_DB_PASS%%/$TRANSPORT_DB_PASS/g" \
 		\
-		-e "s/%%ADMIN_JID%%/$ADMIN_JID/g" \
-		-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
+		-e "s/%%TRANSPORT_SECRET%%/$TRANSPORT_SECRET/g" \
 		\
 		> $FILE
 done
