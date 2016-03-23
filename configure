@@ -17,6 +17,8 @@ export TRANSPORT_DB_USER='decent.im.transport'
 export TRANSPORT_DB_NAME='decent.im.transport'
 export TRANSPORT_DB_PASSWORD='`random_string`'
 
+export TRANSPORT_SECRET='`random_string`'
+
 export ADMIN_JID='admin@$DOMAIN_NAME'
 
 # Used for LetsEncrypt certs. You may want to edit this
