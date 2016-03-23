@@ -6,4 +6,4 @@ default:
 install:
 	install -d -g decent.im -m 750 $(DESTDIR)/decent.im
 	install -g decent.im -m 750 config $(DESTDIR)/decent.im/
-	$(CP) -r files/* $(DESTDIR)
+	cp -r files/* $(DESTDIR)
