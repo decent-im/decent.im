@@ -9,7 +9,6 @@ letsencrypt certonly --non-interactive --standalone -d $D -d chat.$D -d proxy.$D
 
 cp /etc/letsencrypt/live/$D/privkey.pem   /etc/jabber/certs/${D}.key
 cp /etc/letsencrypt/live/$D/fullchain.pem /etc/jabber/certs/${D}.crt
-service prosody restart
 
 mkdir -p /etc/nginx/certs
 chown nginx.root /etc/nginx/certs/
@@ -19,4 +18,19 @@ echo '
 ssl_certificate /etc/nginx/certs/fullchain.pem;
 ssl_certificate_key /etc/nginx/certs/privkey.pem;
 ' > /etc/nginx/conf.d/certs.conf
+
+
+set +e
+
+service prosody restart
+RET_PROSODY=$?
+
 service nginx restart
+RET_NGINX=$?
+
+if [[ $RET_PROSODY != 0 ]] || [[ $RET_NGINX != 0 ]]
+then
+	exit 1
+else
+	exit 0
+fi
