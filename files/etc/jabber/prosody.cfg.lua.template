@@ -1,4 +1,4 @@
--- Prosody XMPP Server Configuration
+-- Prosody Configuration File
 --
 -- Information on configuring Prosody can be found on our
 -- website at http://prosody.im/doc/configure
@@ -7,8 +7,6 @@
 -- when you have finished by running: prosodyctl check config
 -- If there are any errors, it will let you know what and where
 -- they are, otherwise it will keep quiet.
---
--- Good luck, and happy Jabbering!
 
 
 ---------- Server-wide settings ----------
@@ -18,7 +16,7 @@
 -- This is a (by default, empty) list of accounts that are admins
 -- for the server. Note that you must create the accounts separately
 -- (see http://prosody.im/doc/creating_accounts for info)
--- Example: admins = { "user1@example.net", "user2@example.net" }
+-- Example: admins = { "user1@example.com", "user2@example.net" }
 admins = { "%%ADMIN_JID%%" }
 
 -- Enable use of libevent for better performance under high load
@@ -43,7 +41,7 @@ modules_enabled = {
 
 	-- These are commented by default as they have a performance impact
 		"blocklist"; -- Allow users to block communications with other users
-		"compression"; -- Stream compression (requires the lua-zlib package installed)
+		"compression"; -- Stream compression
 
 	-- Nice to have
 		"version"; -- Replies to server version requests
@@ -62,14 +60,14 @@ modules_enabled = {
 		--"http_files"; -- Serve static files from a directory over HTTP
 
 	-- Other specific functionality
-		"groups"; -- Shared roster support
+		--"groups"; -- Shared roster support
 		--"announce"; -- Send announcement to all online users
 		--"welcome"; -- Welcome users who register accounts
-		"watchregistrations"; -- Alert admins of registrations
+		--"watchregistrations"; -- Alert admins of registrations
 		--"motd"; -- Send a message to users when they log in
 		--"legacyauth"; -- Legacy authentication. Only used by some old clients and bots.
 
-
+	-- Customly added by %%DOMAIN_NAME%%
 		"mam";
 		"carbons";
 		"http_upload";
@@ -86,9 +84,6 @@ modules_enabled = {
 		"smacks";
 }
 
-default_archive_policy = true;
-archive_expires_after = "2m"
-
 -- These modules are auto-loaded, but should you want
 -- to disable them then uncomment them here:
 modules_disabled = {
@@ -101,6 +96,13 @@ modules_disabled = {
 -- Disable account creation by default, for security
 -- For more information see http://prosody.im/doc/creating_accounts
 allow_registration = false
+
+-- These are the SSL/TLS-related settings. If you don't want
+-- to use SSL/TLS, you may comment or remove this
+ssl = {
+	key = "/etc/jabber/certs/localhost.key";
+	certificate = "/etc/jabber/certs/localhost.crt";
+}
 
 -- Force clients to use encrypted connections? This option will
 -- prevent clients from authenticating unless they are using encryption.
@@ -115,8 +117,6 @@ c2s_require_encryption = true
 
 s2s_secure_auth = false
 
-s2s_require_encryption = true
-
 -- Many servers don't support encryption or have invalid or self-signed
 -- certificates. You can list domains here that will not be required to
 -- authenticate using certificates. They will be authenticated using DNS.
@@ -128,15 +128,14 @@ s2s_require_encryption = true
 
 --s2s_secure_domains = { "jabber.org" }
 
--- Required for init scripts and prosodyctl
-pidfile = "/var/run/prosody/prosody.pid"
-
 -- Select the authentication backend to use. The 'internal' providers
 -- use Prosody's configured data storage to store the authentication data.
 -- To allow Prosody to offer secure authentication mechanisms to clients, the
 -- default provider stores passwords in plaintext. If you do not trust your
 -- server please see http://prosody.im/doc/modules/mod_auth_internal_hashed
 -- for information about using the hashed backend.
+-- See http://prosody.im/doc/authentication for other possibilities including
+-- Cyrus SASL.
 
 authentication = "internal_hashed"
 
@@ -149,39 +148,52 @@ storage = "sql" -- Default is "internal"
 
 -- For the "sql" backend, you can uncomment *one* of the below to configure:
 --sql = { driver = "SQLite3", database = "prosody.sqlite" } -- Default. 'database' is the filename.
-sql = { driver = "MySQL", database = "prosody", username = "prosody", password = "%%MYSQL_PROSODY_PASSWORD%%", host = "localhost" }
---sql = { driver = "PostgreSQL", database = "prosody", username = "prosody", password = "secret", host = "localhost" }
+--sql = { driver = "MySQL", database = "prosody", username = "prosody", password = "secret", host = "localhost" }
+sql = { driver = "PostgreSQL", database = "%%XMPP_DB_NAME%%", username = "%%XMPP_DB_USER%%", password = "%%XMPP_DB_PASS%%", host = "localhost" }
 
 -- Logging configuration
 -- For advanced logging see http://prosody.im/doc/logging
 log = {
-	debug = "/var/log/prosody/prosody.log"; -- Change 'info' to 'debug' for verbose logging
-	error = "/var/log/prosody/prosody.err";
-	"*syslog";
+	info = "/var/log/jabber/prosody.log"; -- Change 'info' to 'debug' for verbose logging
+	error = "/var/log/jabber/prosody.err";
+	"*syslog"; -- Uncomment this for logging to syslog; needs mod_posix
+	-- "*console"; -- Log to the console, useful for debugging with daemonize=false
 }
 
-cross_domain_bosh = true;
-cross_domain_websocket = true;
+-- Pidfile, used by prosodyctl and the init.d script
+pidfile = "/var/run/jabber/prosody.pid"
+
+-- User and group, used for daemon
+prosody_user = "jabber"
+prosody_group = "jabber"
+
+
+----- Additional global settings by %%DOMAIN_NAME%% -----
+
+-- Personal MAM settings
+default_archive_policy = true
+archive_expires_after = "never"
+
+-- Chatroom MAM settings
+muc_log_by_default = true
+max_archive_query_results = 20
+max_history_messages = 1000
+
 
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.
 
-ssl = {
-	key = "/var/lib/prosody/%%DOMAIN_NAME%%.key";
-	certificate = "/var/lib/prosody/%%DOMAIN_NAME%%.crt";
-}
-
 VirtualHost "%%DOMAIN_NAME%%"
-	enabled = true -- Remove this line to enable this host
+	enabled = true
 
 	-- Assign this host a certificate for TLS, otherwise it would use the one
 	-- set in the global section (if any).
 	-- Note that old-style SSL on port 5223 only supports one certificate, and will always
 	-- use the global one.
 	ssl = {
-		key = "/var/lib/prosody/%%DOMAIN_NAME%%.key";
-		certificate = "/var/lib/prosody/%%DOMAIN_NAME%%.crt";
+		key = "/etc/jabber/certs/%%DOMAIN_NAME%%.key";
+		certificate = "/etc/jabber/certs/%%DOMAIN_NAME%%.crt";
 	}
 
 ------ Components ------
@@ -189,9 +201,12 @@ VirtualHost "%%DOMAIN_NAME%%"
 -- like multi-user conferences, and transports.
 -- For more information on components, see http://prosody.im/doc/components
 
----Set up a MUC (multi-user chat) room server:
+---Set up a MUC (multi-user chat) room server
 Component "chat.%%DOMAIN_NAME%%" "muc"
 	restrict_room_creation = "local"
+	modules_enabled = {
+		"mam_muc";
+	}
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
 Component "proxy.%%DOMAIN_NAME%%" "proxy65"
@@ -202,5 +217,21 @@ Component "proxy.%%DOMAIN_NAME%%" "proxy65"
 -- transports to other networks like ICQ, MSN and Yahoo. For more info
 -- see: http://prosody.im/doc/components#adding_an_external_component
 --
-Component "gateway.%%DOMAIN_NAME%%"
+--Component "gateway.example.com"
 --	component_secret = "password"
+
+Component "pubsub.%%DOMAIN_NAME%%" "pubsub"
+
+-- Skype transport
+Component "skype.%%DOMAIN_NAME%%"
+	component_secret = "%%TRANSPORT_SECRET%%"
+
+-- irc.freenode.net transport
+Component "freenode.%%DOMAIN_NAME%%"
+	component_secret = "%%TRANSPORT_SECRET%%"
+
+-- Generic IRC transport
+-- IRC server is specified in JID of requested resource
+Component "irc.%%DOMAIN_NAME%%"
+	component_secret = "%%TRANSPORT_SECRET%%"
+
