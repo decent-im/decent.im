@@ -1,7 +1,7 @@
 DESTDIR ?= /usr/local
 
 default:
-	process_templates
+	./process_templates
 
 install:
 	install -d -g decent.im -m 750 $(DESTDIR)/decent.im
