@@ -15,11 +15,11 @@ export GITHUB_PAGES_URL='decent-im.github.io'
 
 export XMPP_DB_USER='decent.im'
 export XMPP_DB_NAME='decent.im'
-export XMPP_DB_PASSWORD='`random_string`'
+export XMPP_DB_PASS='`random_string`'
 
 export TRANSPORT_DB_USER='decent.im.transport'
 export TRANSPORT_DB_NAME='decent.im.transport'
-export TRANSPORT_DB_PASSWORD='`random_string`'
+export TRANSPORT_DB_PASS='`random_string`'
 
 export TRANSPORT_SECRET='`random_string`'
 
