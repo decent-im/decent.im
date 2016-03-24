@@ -4,10 +4,15 @@
 
 DOMAIN_NAME="`hostname -f`"
 
-if [[ -e /etc/decent.im/config ]]
+if [[ -e config ]]
 then
+	echo "Using given config"
+elif [[ -e /etc/decent.im/config ]]
+then
+	echo "Using /etc/decent.im/config"
 	cp /etc/decent.im/config .
 else
+	echo "Generating config"
 	echo "
 export DOMAIN_NAME='$DOMAIN_NAME'
 export D=\"\$DOMAIN_NAME\"
