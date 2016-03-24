@@ -41,7 +41,6 @@ type=irc
 
 # Category of transport, default is "gateway
 #category=gateway
-category=server
 
 [logging]
 # log4cxx/log4j logging configuration file in ini format used for main spectrum2 instance.
