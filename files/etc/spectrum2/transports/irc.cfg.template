@@ -1,17 +1,15 @@
 [service]
-# 1 if Spectrum should run in server mode.
-server_mode = 1
-
 # The name of user/group Spectrum runs as.
 #user=spectrum
 #group=spectrum
 
-# Hostname (JID) of this Spectrum 2 server mode instance.
+# JID of Spectrum instance.
 jid = irc.%%DOMAIN_NAME%%
 
+# Password used to connect the XMPP server.
 password = %%TRANSPORT_SECRET%%
 
-# To bind to all ipv4 interfaces, use server=0.0.0.0
+# XMPP server to which Spectrum connects in gateway mode.
 server = 127.0.0.1
 
 # XMPP server port.
@@ -24,12 +22,6 @@ backend_host = 127.0.0.1
 # By default Spectrum chooses random backend port and there's
 # no need to change it normally
 #backend_port=10001
-
-# Full path to PKCS#12 cetficiate used for TLS in server mode.
-#cert=
-
-# Certificate password if any.
-#cert_password=
 
 # Number of users per one legacy network backend.
 users_per_backend=10
