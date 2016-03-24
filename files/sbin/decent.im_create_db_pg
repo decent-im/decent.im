@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+. /etc/decent.im/config
+
+yes | emerge --config dev-db/postgresql || true
+/etc/init.d/postgresql* start
+
+psql -U postgres <<EOF
+CREATE USER "$XMPP_DB_USER"      WITH PASSWORD '$XMPP_DB_PASS';
+CREATE USER "$TRANSPORT_DB_USER" WITH PASSWORD '$TRANSPORT_DB_PASS';
+
+CREATE DATABASE "$XMPP_DB_NAME"      OWNER "$XMPP_DB_USER";
+CREATE DATABASE "$TRANSPORT_DB_NAME" OWNER "$TRANSPORT_DB_USER";
+EOF
