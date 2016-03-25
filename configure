@@ -2,7 +2,12 @@
 
 . `dirname $0`/util.sh
 
-DOMAIN_NAME="`hostname -f`"
+if [[ -e /etc/fqdn ]]
+then
+	DOMAIN_NAME="`cat /etc/fqdn`"
+else
+	DOMAIN_NAME="`hostname -f`"
+fi
 
 if [[ -e config ]]
 then
