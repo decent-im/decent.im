@@ -1,12 +1,14 @@
 #!/bin/bash -e
 
-. config
+. /etc/decent.im/config
 
 # TODO Auto-catch %%STUFF%% and replace with envvar
 
-for FILE_TEMPLATE in `find files | grep template`
+cd /usr/share/decent.im/files
+
+for FILE_TEMPLATE in `find * | grep template`
 do
-	FILE=${FILE_TEMPLATE/.template/}
+	FILE=/${FILE_TEMPLATE/.template/} # Mind the absolute path
 	cat $FILE_TEMPLATE | sed \
 		\
 		-e "s/%%ADMIN_JID%%/$ADMIN_JID/g" \

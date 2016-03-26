@@ -1,9 +1,9 @@
 DESTDIR ?= /usr/local
 
 default:
-	./process_templates
+	true
 
 install:
-	install -d -m 750 $(DESTDIR)/etc/decent.im
-	install -m 750 config $(DESTDIR)/etc/decent.im/
-	cp -r files/* $(DESTDIR)
+	mkdir -p $(DESTDIR)/usr/share/decent.im/files
+	cp -r files/etc $(DESTDIR)/usr/share/decent.im/files
+	cp -r files/sbin $(DESTDIR)

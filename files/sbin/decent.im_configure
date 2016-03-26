@@ -1,6 +1,17 @@
 #!/bin/bash
 
-. `dirname $0`/util.sh
+function random_string() {
+RANDOM_BYTES=${1:-16}
+	dd if=/dev/urandom count=1 bs=$RANDOM_BYTES 2>/dev/null | hexdump -ve '1/1 "%.2x"'
+}
+
+if [[ -e /etc/decent.im/config ]]
+then
+	echo "/etc/decent.im/config is present, not overwriting it, exiting now"
+	exit 0
+fi
+
+echo "Generating /etc/decent.im/config"
 
 if [[ -e /etc/fqdn ]]
 then
@@ -9,16 +20,7 @@ else
 	DOMAIN_NAME="`hostname -f`"
 fi
 
-if [[ -e config ]]
-then
-	echo "Using given config"
-elif [[ -e /etc/decent.im/config ]]
-then
-	echo "Using /etc/decent.im/config"
-	cp /etc/decent.im/config .
-else
-	echo "Generating config"
-	echo "
+echo "
 export DOMAIN_NAME='$DOMAIN_NAME'
 export D=\"\$DOMAIN_NAME\"
 export GITHUB_PAGES_URL='decent-im.github.io'
@@ -37,6 +39,4 @@ export ADMIN_JID='admin@$DOMAIN_NAME'
 
 # Used for LetsEncrypt certs. You may want to edit this
 export ADMIN_EMAIL='xmpp@$DOMAIN_NAME'
-" > config
-
-fi
+" > /etc/decent.im/config
