@@ -13,12 +13,22 @@ fi
 
 echo "Generating /etc/decent.im/config"
 
-if [[ -e /etc/fqdn ]]
+EXTERNAL_IP=`dig +short myip.opendns.com @resolver1.opendns.com`
+DNS_PTR=`dig +short -x $EXTERNAL_IP @resolver1.opendns.com`
+FQDN=`echo $DNS_PTR | sed 's/[.]$//'`
+if [[ "$DNS_PTR" ]]
 then
-	DOMAIN_NAME="`cat /etc/fqdn`"
+	DOMAIN_NAME="$FQDN"
 else
+	echo "No reverse DNS record found, using \`hostname -f\` value for FQDN"
 	DOMAIN_NAME="`hostname -f`"
 fi
+
+echo "FQDN according to \`hostname -f\`: `hostname -f`"
+echo "Detected external IP: $EXTERNAL_IP"
+echo "FQDN according to reverse DNS request: $FQDN"
+echo "Used domain name: $DOMAIN_NAME"
+
 
 echo "
 export DOMAIN_NAME='$DOMAIN_NAME'
