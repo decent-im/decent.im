@@ -1,0 +1,6 @@
+# m hh dom mon dow user       command
+0   12  *   *  tue root       decent.im_update_world
+
+# Assuming that update may harm system operational status, let's perform update
+# during working week & time so that admin is more probably able to notice and
+# fix the issue.

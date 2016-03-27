@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+emerge --sync
+emerge -vtuDN @world @smart-live-rebuild
+
+# Restart services if they, or their configs, were updated
+
+PROSODY_PID=`cat /run/jabber/prosody.pid`
+if [[ "/proc/$PROSODY_PID" -ot /usr/bin/prosody ]] || [[ "/proc/$PROSODY_PID" -ot /etc/jabber/prosody.cfg.lua ]]
+then
+	service prosody restart
+fi
+
+SPECTRUM_PID=`cat /run/spectrum2/irc.dev.decent.im.pid`
+if [[ "/proc/$SPECTRUM_PID" -ot /usr/bin/spectrum2 ]] || [[ "/proc/$SPECTRUM_PID" -ot /etc/spectrum2/transports/irc.cfg ]]
+then
+	service spectrum restart
+fi
