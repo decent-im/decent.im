@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
 emerge --sync
-emerge -vtuDN @world @smart-live-rebuild
+emerge -vtuDN @world
+emerge -vt @smart-live-rebuild
 
 # Restart services if they, or their configs, were updated
 
