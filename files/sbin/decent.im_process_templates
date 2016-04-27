@@ -6,6 +6,9 @@
 
 cd /usr/share/decent.im/files
 
+# Propagate non-template files
+cp -a * /
+
 for FILE_TEMPLATE in `find * | grep template`
 do
 	FILE=/${FILE_TEMPLATE/.template/} # Mind the absolute path
