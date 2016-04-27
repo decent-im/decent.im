@@ -17,6 +17,7 @@ do
 		\
 		-e "s/%%ADMIN_JID%%/$ADMIN_JID/g" \
 		-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
+		-e "s/%%EXTERNAL_IP%%/$EXTERNAL_IP/g" \
 		\
 		-e "s/%%XMPP_DB_NAME%%/$XMPP_DB_NAME/g" \
 		-e "s/%%XMPP_DB_USER%%/$XMPP_DB_USER/g" \
