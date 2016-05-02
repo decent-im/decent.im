@@ -6,6 +6,8 @@ emerge --sync
 emerge -vtuDN @world
 emerge -vt @smart-live-rebuild
 
+decent.im_process_templates
+
 # Restart services if they, or their configs, were updated
 
 PROSODY_PID=`cat /run/jabber/prosody.pid`
