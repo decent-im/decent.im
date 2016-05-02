@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+. /etc/decent.im/config
+
 emerge --sync
 emerge -vtuDN @world
 emerge -vt @smart-live-rebuild
@@ -12,7 +14,7 @@ then
 	service prosody restart
 fi
 
-SPECTRUM_PID=`cat /run/spectrum2/irc.dev.decent.im.pid`
+SPECTRUM_PID=`cat /run/spectrum2/irc.${D}.pid`
 if [[ "/proc/$SPECTRUM_PID" -ot /usr/bin/spectrum2 ]] || [[ "/proc/$SPECTRUM_PID" -ot /etc/spectrum2/transports/irc.cfg ]]
 then
 	service spectrum restart
