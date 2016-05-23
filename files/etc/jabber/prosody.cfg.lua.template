@@ -235,3 +235,7 @@ Component "freenode.%%DOMAIN_NAME%%"
 Component "irc.%%DOMAIN_NAME%%"
 	component_secret = "%%TRANSPORT_SECRET%%"
 
+-- Facebook transport
+Component "facebook.%%DOMAIN_NAME%%"
+	component_secret = "%%TRANSPORT_SECRET%%"
+
