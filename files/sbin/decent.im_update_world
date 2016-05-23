@@ -3,6 +3,7 @@
 . /etc/decent.im/config
 
 emerge --sync
+layman -s ALL
 emerge -vtuDN @world
 emerge -vt @smart-live-rebuild
 
