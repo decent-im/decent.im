@@ -4,6 +4,9 @@
 
 # TODO Auto-catch %%STUFF%% and replace with envvar
 
+# TODO Rewrite existing config files only if there are changes, to avoid stray
+# mtime bumps and services restarts (see checks in update_world).
+
 cd /usr/share/decent.im/files
 
 # Propagate non-template files
