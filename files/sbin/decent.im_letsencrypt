@@ -3,6 +3,9 @@ set -e
 
 . /etc/decent.im/config
 
+# letsencrypt requires port 80
+service nginx stop
+
 letsencrypt certonly --non-interactive --standalone -d $D -d chat.$D -d proxy.$D -d pubsub.$D -d skype.$D -d freenode.$D -d irc.$D --agree-tos --email $ADMIN_EMAIL
 
 # /etc/letsencrypt is u=rwx,g=,o= owned by root, so for security and simplicity reasons it is easier to copy certs to apps' dirs than to use symlinks
