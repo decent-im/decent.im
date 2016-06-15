@@ -100,8 +100,8 @@ allow_registration = false
 -- These are the SSL/TLS-related settings. If you don't want
 -- to use SSL/TLS, you may comment or remove this
 ssl = {
-	key = "/etc/jabber/certs/localhost.key";
-	certificate = "/etc/jabber/certs/localhost.crt";
+	key = "/etc/jabber/certs/%%DOMAIN_NAME%%.key";
+	certificate = "/etc/jabber/certs/%%DOMAIN_NAME%%.crt";
 }
 
 -- Force clients to use encrypted connections? This option will
@@ -186,15 +186,6 @@ max_history_messages = 1000
 
 VirtualHost "%%DOMAIN_NAME%%"
 	enabled = true
-
-	-- Assign this host a certificate for TLS, otherwise it would use the one
-	-- set in the global section (if any).
-	-- Note that old-style SSL on port 5223 only supports one certificate, and will always
-	-- use the global one.
-	ssl = {
-		key = "/etc/jabber/certs/%%DOMAIN_NAME%%.key";
-		certificate = "/etc/jabber/certs/%%DOMAIN_NAME%%.crt";
-	}
 
 ------ Components ------
 -- You can specify components to add hosts that provide special services,
