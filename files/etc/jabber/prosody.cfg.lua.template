@@ -234,3 +234,11 @@ Component "facebook.%%DOMAIN_NAME%%"
 Component "j2j.%%DOMAIN_NAME%%"
 	component_secret = "%%TRANSPORT_SECRET%%"
 
+-- J2J transport double, for Slack
+Component "slack.%%DOMAIN_NAME%%"
+	component_secret = "%%TRANSPORT_SECRET%%"
+
+-- J2J transport double, for Hipchat
+Component "hipchat.%%DOMAIN_NAME%%"
+	component_secret = "%%TRANSPORT_SECRET%%"
+
