@@ -156,7 +156,7 @@ sql = { driver = "PostgreSQL", database = "%%XMPP_DB_NAME%%", username = "%%XMPP
 log = {
 	info = "/var/log/jabber/prosody.log"; -- Change 'info' to 'debug' for verbose logging
 	error = "/var/log/jabber/prosody.err";
-	"*syslog"; -- Uncomment this for logging to syslog; needs mod_posix
+	-- "*syslog"; -- Uncomment this for logging to syslog; needs mod_posix
 	-- "*console"; -- Log to the console, useful for debugging with daemonize=false
 }
 
