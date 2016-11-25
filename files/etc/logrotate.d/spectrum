@@ -1,0 +1,12 @@
+/var/log/spectrum2/*/*.log
+/var/log/spectrum2/*/backends/*.log
+{
+	weekly
+	rotate 2
+	create 640 jabber jabber
+	postrotate
+		rc-service spectrum reload > /dev/null
+	endscript
+	sharedscripts
+	missingok
+}
