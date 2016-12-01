@@ -1,2 +1,2 @@
 # m hh dom mon dow user       command
-0   3   1   *   *  root       /sbin/decent.im_letsencrypt > /var/log/decent.im_letsencrypt.log 2> /var/log/decent.im_letsencrypt.err
+0   3   1   *   *  root       bash -l /sbin/decent.im_letsencrypt > /var/log/decent.im_letsencrypt.log 2> /var/log/decent.im_letsencrypt.err
