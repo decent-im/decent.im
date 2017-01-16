@@ -242,3 +242,7 @@ Component "slack.%%DOMAIN_NAME%%"
 Component "hipchat.%%DOMAIN_NAME%%"
 	component_secret = "%%TRANSPORT_SECRET%%"
 
+-- Twitter transport
+Component "twitter.%%DOMAIN_NAME%%"
+	component_secret = "%%TRANSPORT_SECRET%%"
+
