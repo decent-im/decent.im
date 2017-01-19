@@ -46,6 +46,8 @@ export TRANSPORT_DB_PASS='`random_string`'
 
 export TRANSPORT_SECRET='`random_string`'
 
+export TURN_SECRET='`random_string`'
+
 export ADMIN_JID='admin@$DOMAIN_NAME'
 
 # Used for LetsEncrypt certs. You may want to edit this

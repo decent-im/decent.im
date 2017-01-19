@@ -35,5 +35,7 @@ do
 		\
 		-e "s/%%TRANSPORT_SECRET%%/$TRANSPORT_SECRET/g" \
 		\
+		-e "s/%%TURN_SECRET%%/$TURN_SECRET/g" \
+		\
 		> $FILE
 done
