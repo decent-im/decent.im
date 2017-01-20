@@ -6,7 +6,24 @@ set -e
 # letsencrypt requires port 80
 service nginx stop
 
-certbot certonly --non-interactive --standalone -d $D -d chat.$D -d proxy.$D -d pubsub.$D -d skype.$D -d freenode.$D -d irc.$D -d spectrum.irc.$D -d biboumi.irc.$D -d facebook.$D -d twitter.$D --agree-tos --email $ADMIN_EMAIL --expand
+certbot certonly \
+	--agree-tos \
+	--email $ADMIN_EMAIL \
+	--expand \
+	--non-interactive \
+	--standalone \
+	-d $D \
+	-d biboumi.irc.$D \
+	-d chat.$D \
+	-d facebook.$D \
+	-d freenode.$D \
+	-d irc.$D \
+	-d proxy.$D \
+	-d pubsub.$D \
+	-d skype.$D \
+	-d spectrum.irc.$D \
+	-d twitter.$D \
+	;
 
 # /etc/letsencrypt is u=rwx,g=,o= owned by root, so for security and simplicity reasons it is easier to copy certs to apps' dirs than to use symlinks
 
