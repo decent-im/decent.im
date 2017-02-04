@@ -1,0 +1,32 @@
+#!/bin/bash -e
+
+cd /usr/src
+NEWEST=`ls -td linux-* | head -n1`
+if ! [[ -d $NEWEST ]]
+then
+	exit 1
+fi
+
+ln -snfv $NEWEST linux
+cd linux
+
+if [[ -d .git ]]
+then
+	git clean -dxf
+else
+	make mrproper
+fi
+
+make defconfig kvmconfig
+echo "
+CONFIG_SCSI_LOWLEVEL=y
+CONFIG_SCSI_VIRTIO=y
+CONFIG_VIRTIO_INPUT=y
+CONFIG_VIRTIO_MMIO=y
+CONFIG_VIRTIO_MMIO_CMDLINE_DEVICES=y
+" >> .config
+make olddefconfig
+cp .config /usr/src/kernel.config
+genkernel --no-mountboot --kernel-config=/usr/src/kernel.config all
+grub-mkconfig -o /boot/grub/grub.cfg
+emerge @module-rebuild

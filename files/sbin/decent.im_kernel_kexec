@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+KERNEL=`ls -t /boot/kernel*    | head -n1`
+INITRD=`ls -t /boot/initramfs* | head -n1`
+
+kexec -l $KERNEL --initrd=$INITRD --reuse-cmdline
+kexec -e
