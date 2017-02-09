@@ -179,8 +179,8 @@ max_archive_query_results = 20
 max_history_messages = 1000
 
 -- mod_turncredential
-turncredentials_host = %%EXTERNAL_IP%%
-turncredentials_secret = %%TURN_SECRET%%
+turncredentials_host = "%%EXTERNAL_IP%%"
+turncredentials_secret = "%%TURN_SECRET%%"
 
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
