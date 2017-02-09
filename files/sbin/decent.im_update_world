@@ -4,8 +4,8 @@
 
 emerge --sync
 layman -s ALL
-emerge -vtuDN @world
-emerge -vt @smart-live-rebuild
+emerge -qtuDN @world
+emerge -qt @smart-live-rebuild
 
 decent.im_process_templates
 
