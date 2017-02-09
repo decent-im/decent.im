@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+BKP_LOCATION=/var/backups/decent.im
+BKP_AGE=15 # days
+
+source /etc/decent.im/config
+
+pushd $BKP_LOCATION
+
+find . -mindepth 1 -mtime +$BKP_AGE -delete

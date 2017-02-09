@@ -52,4 +52,7 @@ export ADMIN_JID='admin@$DOMAIN_NAME'
 
 # Used for LetsEncrypt certs. You may want to edit this
 export ADMIN_EMAIL='xmpp@$DOMAIN_NAME'
+
+BKP_LOCATION=/var/backups/decent.im
+BKP_AGE=15 # days
 " > /etc/decent.im/config
