@@ -182,6 +182,10 @@ max_history_messages = 1000
 turncredentials_host = "%%EXTERNAL_IP%%"
 turncredentials_secret = "%%TURN_SECRET%%"
 
+-- allow connections from web apps deployed elsewhere
+cross_domain_websocket = true
+cross_domain_bosh = true
+
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.
