@@ -1,7 +1,8 @@
 external-ip=%%EXTERNAL_IP%%
 verbose
 fingerprint
-user=anon:anon
+use-auth-secret
+static-auth-secret=%%TURN_SECRET%%
 realm=%%DOMAIN_NAME%%
 cert=/etc/letsencrypt/live/%%DOMAIN_NAME%%/fullchain.pem
 pkey=/etc/letsencrypt/live/%%DOMAIN_NAME%%/privkey.pem
