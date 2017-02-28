@@ -17,10 +17,13 @@ certbot certonly \
 	-d chat.$D \
 	-d facebook.$D \
 	-d freenode.$D \
+	-d hipchat.$D \
 	-d irc.$D \
+	-d j2j.$D \
 	-d proxy.$D \
 	-d pubsub.$D \
 	-d skype.$D \
+	-d slack.$D \
 	-d spectrum.irc.$D \
 	-d twitter.$D \
 	;
