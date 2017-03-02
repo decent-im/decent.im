@@ -6,5 +6,3 @@ static-auth-secret=%%TURN_SECRET%%
 realm=%%DOMAIN_NAME%%
 cert=/etc/letsencrypt/live/%%DOMAIN_NAME%%/fullchain.pem
 pkey=/etc/letsencrypt/live/%%DOMAIN_NAME%%/privkey.pem
-proc-user=nobody
-proc-group=nobody
