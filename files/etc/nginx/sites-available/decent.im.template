@@ -1,10 +1,10 @@
 server {
 	listen 80;
 	listen 443 ssl;
-	server_name %%DOMAIN_NAME%%;
+	server_name $DOMAIN_NAME;
 
-	access_log /var/log/nginx/%%DOMAIN_NAME%%.access_log main;
-	error_log /var/log/nginx/%%DOMAIN_NAME%%.error_log info;
+	access_log /var/log/nginx/$DOMAIN_NAME.access_log main;
+	error_log /var/log/nginx/$DOMAIN_NAME.error_log info;
 
 	root /var/www/html;
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <jappix xmlns="jappix:conf:hosts">
-    <main>%%DOMAIN_NAME%%</main>
-    <muc>chat.%%DOMAIN_NAME%%</muc>
-    <pubsub>pubsub.%%DOMAIN_NAME%%</pubsub>
+    <main>$DOMAIN_NAME</main>
+    <muc>chat.$DOMAIN_NAME</muc>
+    <pubsub>pubsub.$DOMAIN_NAME</pubsub>
     <vjud></vjud>
     <anonymous></anonymous>
-    <stun>%%DOMAIN_NAME%%</stun>
-    <turn>%%DOMAIN_NAME%%</turn>
+    <stun>$DOMAIN_NAME</stun>
+    <turn>$DOMAIN_NAME</turn>
     <turn_username></turn_username>
     <turn_password></turn_password>
     <bosh></bosh>
     <bosh_main></bosh_main>
     <bosh_mini></bosh_mini>
-    <websocket>wss://%%DOMAIN_NAME%%:5281/xmpp-websocket</websocket>
+    <websocket>wss://$DOMAIN_NAME:5281/xmpp-websocket</websocket>
     <static></static>
     <upload></upload>
     <bosh_proxy>off</bosh_proxy>

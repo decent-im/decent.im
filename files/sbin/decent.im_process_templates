@@ -19,23 +19,22 @@ do
 	then
 		mv -v $FILE ${FILE}.old
 	fi
-	cat $FILE_TEMPLATE | sed \
-		\
-		-e "s/%%ADMIN_JID%%/$ADMIN_JID/g" \
-		-e "s/%%DOMAIN_NAME%%/$DOMAIN_NAME/g" \
-		-e "s/%%EXTERNAL_IP%%/$EXTERNAL_IP/g" \
-		\
-		-e "s/%%XMPP_DB_NAME%%/$XMPP_DB_NAME/g" \
-		-e "s/%%XMPP_DB_USER%%/$XMPP_DB_USER/g" \
-		-e "s/%%XMPP_DB_PASS%%/$XMPP_DB_PASS/g" \
-		\
-		-e "s/%%TRANSPORT_DB_NAME%%/$TRANSPORT_DB_NAME/g" \
-		-e "s/%%TRANSPORT_DB_USER%%/$TRANSPORT_DB_USER/g" \
-		-e "s/%%TRANSPORT_DB_PASS%%/$TRANSPORT_DB_PASS/g" \
-		\
-		-e "s/%%TRANSPORT_SECRET%%/$TRANSPORT_SECRET/g" \
-		\
-		-e "s/%%TURN_SECRET%%/$TURN_SECRET/g" \
-		\
-		> $FILE
+
+	envsubst '
+		$ADMIN_JID
+		$DOMAIN_NAME
+		$EXTERNAL_IP
+
+		$XMPP_DB_NAME
+		$XMPP_DB_USER
+		$XMPP_DB_PASS
+
+		$TRANSPORT_DB_NAME
+		$TRANSPORT_DB_USER
+		$TRANSPORT_DB_PASS
+
+		$TRANSPORT_SECRET
+
+		$TURN_SECRET
+		' < $FILE_TEMPLATE > $FILE
 done

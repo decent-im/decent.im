@@ -4,10 +4,10 @@
 #group=spectrum
 
 # JID of Spectrum instance.
-jid = freenode.%%DOMAIN_NAME%%
+jid = freenode.$DOMAIN_NAME
 
 # Password used to connect the XMPP server.
-password = %%TRANSPORT_SECRET%%
+password = $TRANSPORT_SECRET
 
 # XMPP server to which Spectrum connects in gateway mode.
 server = 127.0.0.1
@@ -33,7 +33,7 @@ irc_server=irc.freenode.net
 
 [identity]
 # Name of Spectrum instance in service discovery
-name=%%DOMAIN_NAME%% irc.freenode.net Transport
+name=$DOMAIN_NAME irc.freenode.net Transport
 
 # Type of transport ("msn", "icq", "xmpp").
 # Check http://xmpp.org/registrar/disco-categories.html#gateway
@@ -57,7 +57,7 @@ type = pqxx
 # For SQLite3: Full path to database
 # For MySQL and PostgreSQL: name of database
 # default database = /var/lib/spectrum2/$jid/database.sql
-database = %%TRANSPORT_DB_NAME%%
+database = $TRANSPORT_DB_NAME
 
 # Server.
 #server = localhost
@@ -66,10 +66,10 @@ database = %%TRANSPORT_DB_NAME%%
 #port = 0
 
 # User.
-user = %%TRANSPORT_DB_USER%%
+user = $TRANSPORT_DB_USER
 
 # Paasword.
-password = %%TRANSPORT_DB_PASS%%
+password = $TRANSPORT_DB_PASS
 
 # Prefix used for tables
 prefix = freenode_

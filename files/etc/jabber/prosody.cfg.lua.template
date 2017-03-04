@@ -17,7 +17,7 @@
 -- for the server. Note that you must create the accounts separately
 -- (see http://prosody.im/doc/creating_accounts for info)
 -- Example: admins = { "user1@example.com", "user2@example.net" }
-admins = { "%%ADMIN_JID%%" }
+admins = { "$ADMIN_JID" }
 
 -- Enable use of libevent for better performance under high load
 -- For more information see: http://prosody.im/doc/libevent
@@ -66,7 +66,7 @@ modules_enabled = {
 		--"motd"; -- Send a message to users when they log in
 		--"legacyauth"; -- Legacy authentication. Only used by some old clients and bots.
 
-	-- Customly added by %%DOMAIN_NAME%%
+	-- Customly added by $DOMAIN_NAME
 		"mam";
 		"carbons";
 		"http_upload";
@@ -99,8 +99,8 @@ allow_registration = false
 -- These are the SSL/TLS-related settings. If you don't want
 -- to use SSL/TLS, you may comment or remove this
 ssl = {
-	key = "/etc/jabber/certs/%%DOMAIN_NAME%%.key";
-	certificate = "/etc/jabber/certs/%%DOMAIN_NAME%%.crt";
+	key = "/etc/jabber/certs/$DOMAIN_NAME.key";
+	certificate = "/etc/jabber/certs/$DOMAIN_NAME.crt";
 }
 
 -- Force clients to use encrypted connections? This option will
@@ -148,7 +148,7 @@ storage = "sql" -- Default is "internal"
 -- For the "sql" backend, you can uncomment *one* of the below to configure:
 --sql = { driver = "SQLite3", database = "prosody.sqlite" } -- Default. 'database' is the filename.
 --sql = { driver = "MySQL", database = "prosody", username = "prosody", password = "secret", host = "localhost" }
-sql = { driver = "PostgreSQL", database = "%%XMPP_DB_NAME%%", username = "%%XMPP_DB_USER%%", password = "%%XMPP_DB_PASS%%", host = "localhost" }
+sql = { driver = "PostgreSQL", database = "$XMPP_DB_NAME", username = "$XMPP_DB_USER", password = "$XMPP_DB_PASS", host = "localhost" }
 
 -- Logging configuration
 -- For advanced logging see http://prosody.im/doc/logging
@@ -167,7 +167,7 @@ prosody_user = "jabber"
 prosody_group = "jabber"
 
 
------ Additional global settings by %%DOMAIN_NAME%% -----
+----- Additional global settings by $DOMAIN_NAME -----
 
 -- Personal MAM settings
 default_archive_policy = true
@@ -179,8 +179,8 @@ max_archive_query_results = 20
 max_history_messages = 1000
 
 -- mod_turncredential
-turncredentials_host = "%%EXTERNAL_IP%%"
-turncredentials_secret = "%%TURN_SECRET%%"
+turncredentials_host = "$EXTERNAL_IP"
+turncredentials_secret = "$TURN_SECRET"
 
 -- allow connections from web apps deployed elsewhere
 cross_domain_websocket = true
@@ -190,7 +190,7 @@ cross_domain_bosh = true
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.
 
-VirtualHost "%%DOMAIN_NAME%%"
+VirtualHost "$DOMAIN_NAME"
 	enabled = true
 
 ------ Components ------
@@ -199,14 +199,14 @@ VirtualHost "%%DOMAIN_NAME%%"
 -- For more information on components, see http://prosody.im/doc/components
 
 ---Set up a MUC (multi-user chat) room server
-Component "chat.%%DOMAIN_NAME%%" "muc"
+Component "chat.$DOMAIN_NAME" "muc"
 	restrict_room_creation = "local"
 	modules_enabled = {
 		"mam_muc";
 	}
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
-Component "proxy.%%DOMAIN_NAME%%" "proxy65"
+Component "proxy.$DOMAIN_NAME" "proxy65"
 
 ---Set up an external component (default component port is 5347)
 --
@@ -217,46 +217,46 @@ Component "proxy.%%DOMAIN_NAME%%" "proxy65"
 --Component "gateway.example.com"
 --	component_secret = "password"
 
-Component "pubsub.%%DOMAIN_NAME%%" "pubsub"
+Component "pubsub.$DOMAIN_NAME" "pubsub"
 
 -- Skype transport
-Component "skype.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "skype.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- irc.freenode.net transport
-Component "freenode.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "freenode.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- Generic IRC transport
 -- IRC server is specified in JID of requested resource
-Component "irc.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "irc.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- Generic IRC transport by Spectrum (again, just with explicit name)
-Component "spectrum.irc.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "spectrum.irc.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- Generic IRC transport by Biboumi
-Component "biboumi.irc.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "biboumi.irc.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- Facebook transport
-Component "facebook.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "facebook.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- J2J transport
-Component "j2j.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "j2j.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- J2J transport double, for Slack
-Component "slack.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "slack.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- J2J transport double, for Hipchat
-Component "hipchat.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "hipchat.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
 -- Twitter transport
-Component "twitter.%%DOMAIN_NAME%%"
-	component_secret = "%%TRANSPORT_SECRET%%"
+Component "twitter.$DOMAIN_NAME"
+	component_secret = "$TRANSPORT_SECRET"
 
