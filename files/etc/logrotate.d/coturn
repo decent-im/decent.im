@@ -1,4 +1,4 @@
-/var/log/turn.log {
+/var/log/turnserver/turnserver.log {
 	monthly
 	rotate 2
 	postrotate
