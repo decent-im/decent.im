@@ -1,7 +1,0 @@
-/var/log/turnserver/turnserver.log {
-	monthly
-	rotate 2
-	postrotate
-		killall -HUP turnserver
-	endscript
-}
