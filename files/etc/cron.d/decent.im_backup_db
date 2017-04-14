@@ -1,5 +1,5 @@
 # m hh dom mon dow user       command
-0   5   *   *  tue root       bash -l /sbin/decent.im_backup_db > /var/log/decent.im_backup_db.log 2> /var/log/decent.im_backup_db.err
+0   5   *   *  tue root       bash -l /sbin/decent.im_backup_db &> /var/log/decent.im_backup_db.log
 0   5   *   *  tue root       bash -l /sbin/decent.im_backup_cleanup
 
 # Compression of SQL dumps takes some time with high CPU load.
