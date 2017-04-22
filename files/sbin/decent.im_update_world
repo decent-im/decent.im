@@ -4,7 +4,7 @@
 
 emerge --sync
 layman -s ALL
-emerge -qtuDN --keep-going @world
+emerge -qtuDN --keep-going --verbose-conflicts --backtrack=30 --with-bdeps=y @world
 emerge -qt --keep-going @smart-live-rebuild
 
 decent.im_process_templates
