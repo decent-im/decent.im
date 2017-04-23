@@ -5,14 +5,16 @@ RANDOM_BYTES=${1:-16}
 	dd if=/dev/urandom count=1 bs=$RANDOM_BYTES 2>/dev/null | hexdump -ve '1/1 "%.2x"'
 }
 
-if [[ -e /etc/decent.im/config ]]
+CFG="${1:-/etc/decent.im/config}"
+
+if [[ -e "$CFG" ]]
 then
-	echo "/etc/decent.im/config is present, not overwriting it, exiting now"
+	echo "$CFG is present, not overwriting it, exiting now"
 	exit 0
 fi
 
-echo "Generating /etc/decent.im/config"
-mkdir -p /etc/decent.im
+echo "Generating $CFG"
+mkdir -p $(dirname "$CFG")
 
 EXTERNAL_IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 DNS_PTR=`dig +short -x $EXTERNAL_IP @resolver1.opendns.com`
@@ -56,4 +58,4 @@ export ADMIN_EMAIL='xmpp@$DOMAIN_NAME'
 
 BKP_LOCATION=/var/backups/decent.im
 BKP_AGE=15 # days
-" > /etc/decent.im/config
+" > "$CFG"
