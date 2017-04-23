@@ -1,20 +1,24 @@
 #!/bin/bash -e
 
-. /etc/decent.im/config
+# See Gentoo Dev Manual, "Install Destinations"
+ROOT=${1:-/}
+DESTDIR=${2:-/}
+
+. $ROOT/etc/decent.im/config
 
 # TODO Auto-catch %%STUFF%% and replace with envvar
 
 # TODO Rewrite existing config files only if there are changes, to avoid stray
 # mtime bumps and services restarts (see checks in update_world).
 
-cd /usr/share/decent.im/files
+cd $DESTDIR/usr/share/decent.im/files
 
 # Propagate non-template files
-cp -a * /
+cp -a * $DESTDIR
 
 for FILE_TEMPLATE in `find * | grep template`
 do
-	FILE=/${FILE_TEMPLATE/.template/} # Mind the absolute path
+	FILE=$DESTDIR/${FILE_TEMPLATE/.template/} # Mind the absolute path
 	if [[ -e $FILE ]]
 	then
 		mv -v $FILE ${FILE}.old
