@@ -12,6 +12,7 @@ then
 fi
 
 echo "Generating /etc/decent.im/config"
+mkdir -p /etc/decent.im
 
 EXTERNAL_IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 DNS_PTR=`dig +short -x $EXTERNAL_IP @resolver1.opendns.com`
