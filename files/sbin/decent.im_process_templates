@@ -41,4 +41,5 @@ do
 
 		$TURN_SECRET
 		' < $FILE_TEMPLATE > $FILE
+	echo "Processed $FILE_TEMPLATE => $FILE"
 done
