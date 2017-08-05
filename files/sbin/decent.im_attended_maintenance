@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+set -x
+
+# TODO Check that cert has been updated recently
+
+decent.im_update_world
+
+emerge --ask --depclean
+
+echo "Packages maintenance passed."
+
+# TODO Automate the check
+echo "Maybe it's time to decent.im_kernel_build && decent.im_kernel_kexec ?"
