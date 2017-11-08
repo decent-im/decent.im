@@ -1,0 +1,57 @@
+#!/bin/bash
+set -x
+
+ERRORS=0
+
+services_status() {
+	PGSQL=$(ls /etc/init.d | grep postgresql)
+
+	PGSQL_INSTALLS_COUNT=$(echo $PGSQL | wc -w)
+	if [[ $PGSQL_INSTALLS_COUNT == 0 ]]; then
+		echo "ERROR: PostgreSQL not installed"
+		ERRORS=$((ERRORS + 1))
+	fi
+	if [[ $PGSQL_INSTALLS_COUNT -gt 1 ]]; then
+		echo "ERROR: multiple PostgreSQL slots installed"
+		echo "Migrate to latest one and remove oldest one"
+		ERRORS=$((ERRORS + 1))
+	fi
+
+	SERVICES="ntpd bind $PGSQL turnserver prosody spectrum nginx"
+
+	for x in $SERVICES
+	do
+		echo -n "Status of service $x: "
+		service $x status &>/dev/null
+		if [[ $? == 0 ]]; then
+			echo "OK"
+		else
+			echo "DOWN"
+			echo "ERROR: service $x is DOWN"
+			ERRORS=$((ERRORS + 1))
+		fi
+	done
+}
+
+glsa_vulnerabilities() {
+	# Check GLSA (Gentoo Security Advisories)
+	AFFECTED=$(glsa-check --test affected)
+	if [[ "$AFFECTED" != "" ]]; then
+		echo "ERROR: Vulnerable packages present"
+		echo "Run 'glsa-check --pretend affected' and 'glsa-check --fix affected'"
+		ERRORS=$((ERRORS + 1))
+	fi
+}
+
+services_status
+glsa_vulnerabilities
+# TODO check for OOM kills since boot
+# TODO end to end XMPP messages delivery test
+# TODO messages delivery test for gateways
+
+echo "$ERRORS errors found"
+if [[ "$ERRORS" == 0 ]]; then
+	exit 0
+else
+	exit 1
+fi

@@ -7,6 +7,8 @@ set -x
 
 decent.im_update_world
 
+dispatch-conf
+
 emerge --ask --depclean
 
 echo "Packages maintenance passed."
