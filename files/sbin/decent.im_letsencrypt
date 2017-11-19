@@ -4,7 +4,7 @@ set -e
 . /etc/decent.im/config
 
 # letsencrypt requires port 80
-service nginx stop
+rc-service nginx stop
 
 certbot certonly \
 	--agree-tos \
@@ -46,10 +46,10 @@ ssl_certificate_key /etc/nginx/certs/privkey.pem;
 
 set +e
 
-service prosody restart
+rc-service prosody restart
 RET_PROSODY=$?
 
-service nginx restart
+rc-service nginx restart
 RET_NGINX=$?
 
 if [[ $RET_PROSODY != 0 ]] || [[ $RET_NGINX != 0 ]]

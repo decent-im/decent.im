@@ -22,7 +22,7 @@ services_status() {
 	for x in $SERVICES
 	do
 		echo -n "Status of service $x: "
-		service $x status &>/dev/null
+		rc-service $x status &>/dev/null
 		if [[ $? == 0 ]]; then
 			echo "OK"
 		else
