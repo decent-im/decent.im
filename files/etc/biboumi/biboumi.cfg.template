@@ -1,5 +1,5 @@
-db_name=/var/lib/biboumi/biboumi.sqlite
+db_name=postgresql://$BIBOUMI_DB_USER:$BIBOUMI_DB_PASS@localhost/$BIBOUMI_DB_NAME
 log_file=/var/log/biboumi/biboumi.log
 log_level=0
-hostname=biboumi.irc.$DOMAIN_NAME
+hostname=irc.$DOMAIN_NAME
 password=$TRANSPORT_SECRET
