@@ -47,6 +47,10 @@ export TRANSPORT_DB_USER='decent.im.transport'
 export TRANSPORT_DB_NAME='decent.im.transport'
 export TRANSPORT_DB_PASS='`random_string`'
 
+export BIBOUMI_DB_USER='decent.im.biboumi'
+export BIBOUMI_DB_NAME='decent.im.biboumi'
+export BIBOUMI_DB_PASS='`random_string`'
+
 export TRANSPORT_SECRET='`random_string`'
 
 export TURN_SECRET='`random_string`'
