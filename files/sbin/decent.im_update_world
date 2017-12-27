@@ -2,8 +2,8 @@
 
 . /etc/decent.im/config
 
-emerge --sync
-layman -s ALL
+emerge --sync --quiet
+layman -s ALL --quiet
 emerge -qtuDN --keep-going --verbose-conflicts --backtrack=30 --with-bdeps=y @world
 emerge -qt --keep-going @smart-live-rebuild
 revdep-rebuild
