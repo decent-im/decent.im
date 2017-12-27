@@ -10,7 +10,7 @@ mkdir -p $BKP_LOCATION
 chmod u=rwx,g=,o= $BKP_LOCATION
 pushd $BKP_LOCATION
 
-for dbname in $XMPP_DB_NAME $TRANSPORT_DB_NAME
+for dbname in $XMPP_DB_NAME $TRANSPORT_DB_NAME $BIBOUMI_DB_NAME
 do
 	FILENAME="${dbname}_`date +%FT%H:%M:%S`"
 	pg_dump -Upostgres $dbname | xz -zce > "${FILENAME}.sql.xz"
