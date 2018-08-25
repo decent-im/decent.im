@@ -83,6 +83,9 @@ modules_enabled = {
 
 		-- Push notifications
 		"cloud_notify";
+
+		-- Admin contacts for abuse reporting and such
+		"server_contact_info";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -187,6 +190,15 @@ turncredentials_secret = "$TURN_SECRET"
 -- allow connections from web apps deployed elsewhere
 cross_domain_websocket = true
 cross_domain_bosh = true
+
+contact_info = {
+	abuse = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
+	admin = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
+	feedback = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
+	sales = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
+	security = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
+	support = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID", "xmpp:support@chat.$DOMAIN_NAME" };
+}
 
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
