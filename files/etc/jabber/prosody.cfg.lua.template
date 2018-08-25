@@ -200,6 +200,11 @@ contact_info = {
 	support = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID", "xmpp:support@chat.$DOMAIN_NAME" };
 }
 
+disco_items = {
+	{ "proxy.decent.im", "SOCKS5 proxy service" };
+	{ "chat.decent.im", "Chatrooms" };
+}
+
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.
