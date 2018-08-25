@@ -71,7 +71,6 @@ modules_enabled = {
 		"carbons";
 		"http_upload";
 		"websocket";
-		"pubsub";
 		"turncredentials";
 
 		-- XEP-0352: Client State Indication
