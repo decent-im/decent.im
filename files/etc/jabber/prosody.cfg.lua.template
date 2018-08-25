@@ -216,7 +216,7 @@ VirtualHost "$DOMAIN_NAME"
 Component "chat.$DOMAIN_NAME" "muc"
 	restrict_room_creation = "local"
 	modules_enabled = {
-		"mam_muc";
+		"muc_mam";
 	}
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
