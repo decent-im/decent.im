@@ -80,6 +80,9 @@ modules_enabled = {
 
 		-- XEP-0198: Stream Management
 		"smacks";
+
+		-- Push notifications
+		"cloud_notify";
 }
 
 -- These modules are auto-loaded, but should you want
