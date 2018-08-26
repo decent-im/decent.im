@@ -23,7 +23,6 @@ certbot certonly \
 	-d proxy.$D \
 	-d pubsub.$D \
 	-d skype.$D \
-	-d slack.$D \
 	-d spectrum.irc.$D \
 	-d twitter.$D \
 	;
