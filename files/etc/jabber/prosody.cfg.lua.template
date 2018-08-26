@@ -242,10 +242,6 @@ Component "pubsub.$DOMAIN_NAME" "pubsub"
 Component "skype.$DOMAIN_NAME"
 	component_secret = "$TRANSPORT_SECRET"
 
--- irc.freenode.net transport
-Component "freenode.$DOMAIN_NAME"
-	component_secret = "$TRANSPORT_SECRET"
-
 -- Generic IRC transport
 -- IRC server is specified in JID of requested resource
 Component "irc.$DOMAIN_NAME"
