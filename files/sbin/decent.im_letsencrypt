@@ -15,7 +15,6 @@ certbot certonly \
 	-d $D \
 	-d chat.$D \
 	-d facebook.$D \
-	-d hipchat.$D \
 	-d irc.$D \
 	-d j2j.$D \
 	-d proxy.$D \
