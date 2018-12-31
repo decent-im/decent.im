@@ -21,5 +21,5 @@ fi
 SPECTRUM_PID=`cat /run/spectrum2/j2j.${D}.pid`
 if [[ "/proc/$SPECTRUM_PID" -ot /usr/bin/spectrum2 ]] || [[ "/proc/$SPECTRUM_PID" -ot /etc/spectrum2/transports/j2j.cfg ]]
 then
-	rc-service spectrum restart
+	rc-service spectrum2 restart
 fi
