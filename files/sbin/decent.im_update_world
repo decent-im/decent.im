@@ -18,8 +18,8 @@ then
 	rc-service prosody restart
 fi
 
-SPECTRUM_PID=`cat /run/spectrum2/irc.${D}.pid`
-if [[ "/proc/$SPECTRUM_PID" -ot /usr/bin/spectrum2 ]] || [[ "/proc/$SPECTRUM_PID" -ot /etc/spectrum2/transports/irc.cfg ]]
+SPECTRUM_PID=`cat /run/spectrum2/j2j.${D}.pid`
+if [[ "/proc/$SPECTRUM_PID" -ot /usr/bin/spectrum2 ]] || [[ "/proc/$SPECTRUM_PID" -ot /etc/spectrum2/transports/j2j.cfg ]]
 then
 	rc-service spectrum restart
 fi
