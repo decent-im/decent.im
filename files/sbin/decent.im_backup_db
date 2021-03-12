@@ -16,4 +16,4 @@ do
 	pg_dump -Upostgres $dbname | xz -zce > "${FILENAME}.sql.xz"
 done
 
-tar --force-local -caf "var_spool_jabber_$(date +%FT%H:%M:%S).tar.xz" /var/spool/jabber
+tar --force-local -caf "var_spool_jabber_$(date +%FT%H:%M:%S).tar" /var/spool/jabber
