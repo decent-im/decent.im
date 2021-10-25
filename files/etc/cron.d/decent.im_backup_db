@@ -1,5 +1,6 @@
 # m hh dom mon dow user       command
 0   5   *   *  tue root       . /etc/profile && decent.im_backup_db &> /var/log/decent.im_backup_db.log
+0   5   *   *  tue root       . /etc/profile && decent.im_backup_persistent_files &> /var/log/decent.im_backup_persistent_files.log
 0   5   *   *  tue root       . /etc/profile && decent.im_backup_cleanup
 
 # Compression of SQL dumps takes some time with high CPU load.
