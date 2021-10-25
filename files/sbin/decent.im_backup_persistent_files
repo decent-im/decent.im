@@ -13,3 +13,5 @@ pushd $BKP_LOCATION
 tar --force-local -caf "var_spool_jabber_$(date +%FT%H:%M:%S).tar" /var/spool/jabber
 
 tar --force-local -caf "etc_letsencrypt_$(date +%FT%H:%M:%S).tar" /etc/letsencrypt
+
+tar --force-local -caf "var_lib_spectrum2_$(date +%FT%H:%M:%S).tar" /var/lib/spectrum2
