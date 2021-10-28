@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+echo "Make services start on default runlevel ..."
+rc-update add postgresql-$(eselect postgresql show) default
+rc-update add prosody default
+rc-update add spectrum2 default
+rc-update add biboumi default
+rc-update add ntpd default
+
+echo "Starting ntpd ..."
+rc-service ntpd start
+
+echo "Generating decent.im config ..."
+decent.im_configure
+
+echo "Processing software config templates ..."
+decent.im_process_templates
+
+echo "Generating and populating TLS certs ..."
+decent.im_letsencrypt
+
+echo "Creating databases and access credentials for Prosody and Spectrum ..."
+decent.im_create_db_pg
+
+echo "Starting Prosody and Spectrum ..."
+rc-service prosody start
+rc-service spectrum2 start
+rc-service biboumi start
+
