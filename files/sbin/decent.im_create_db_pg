@@ -3,7 +3,7 @@
 . /etc/decent.im/config
 
 yes | emerge --config dev-db/postgresql || true
-/etc/init.d/postgresql* start
+/etc/init.d/postgresql-$(eselect postgresql show) start
 
 psql -U postgres <<EOF
 CREATE USER "$XMPP_DB_USER"      WITH PASSWORD '$XMPP_DB_PASS';

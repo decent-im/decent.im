@@ -4,7 +4,7 @@ set -x
 ERRORS=0
 
 services_status() {
-	PGSQL=$(ls /etc/init.d | grep postgresql)
+	PGSQL=postgresql-$(eselect postgresql show)
 
 	PGSQL_INSTALLS_COUNT=$(echo $PGSQL | wc -w)
 	if [[ $PGSQL_INSTALLS_COUNT == 0 ]]; then
