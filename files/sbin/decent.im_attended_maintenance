@@ -11,7 +11,7 @@ dispatch-conf
 
 emerge --ask --depclean
 
-echo "Packages maintenance passed."
+grub-mkconfig -o /boot/grub/grub.cfg
 
-# TODO Automate the check
-echo "Maybe it's time to decent.im_kernel_build && decent.im_kernel_kexec ?"
+echo "Packages maintenance passed."
+echo "Now reboot to see if it works."
