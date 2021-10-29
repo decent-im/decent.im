@@ -89,6 +89,12 @@ modules_enabled = {
 
 		-- Admin contacts for abuse reporting and such
 		"server_contact_info";
+
+		-- XMPP Compliance Tester pleasing. 2021-10-29
+		-- XEP-0411: Bookmarks Conversion
+		"bookmarks";
+		-- XEP-0153: vCard-Based Avatar (MUC)
+		"vcard_muc";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -110,6 +116,7 @@ ssl = {
 	key = "/etc/jabber/certs/$DOMAIN_NAME.key";
 	certificate = "/etc/jabber/certs/$DOMAIN_NAME.crt";
 }
+legacy_ssl_ports = { 5223 }
 
 -- Force clients to use encrypted connections? This option will
 -- prevent clients from authenticating unless they are using encryption.
