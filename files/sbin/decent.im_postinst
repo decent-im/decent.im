@@ -1,15 +1,18 @@
 #!/bin/bash
 set -e
 
-echo "Make services start on default runlevel ..."
-rc-update add postgresql-$(eselect postgresql show) default
-rc-update add prosody default
-rc-update add spectrum2 default
-rc-update add biboumi default
+echo "Enabling auxiliary system services"
 rc-update add ntpd default
-
-echo "Starting ntpd ..."
 rc-service ntpd start
+
+rc-update add syslog-ng default
+rc-service syslog-ng start
+
+rc-update add cronie default
+rc-service cronie start
+
+rc-update add qemu-guest-agent default
+rc-service qemu-guest-agent start
 
 echo "Generating decent.im config ..."
 decent.im_configure
@@ -21,10 +24,18 @@ echo "Generating and populating TLS certs ..."
 decent.im_letsencrypt
 
 echo "Creating databases and access credentials for Prosody and Spectrum ..."
-decent.im_create_db_pg
+decent.im_create_db_pg # starts psql as well
+rc-update add postgresql-$(eselect postgresql show) default
 
-echo "Starting Prosody and Spectrum ..."
+echo "Starting Prosody XMPP server ..."
+rc-update add prosody default
 rc-service prosody start
-rc-service spectrum2 start
+
+echo "Starting XMPP bridges (transports) ..."
+rc-update add biboumi default
 rc-service biboumi start
+
+echo "Starting HTTP server ..."
+rc-update add nginx default
+rc-service nginx start
 
