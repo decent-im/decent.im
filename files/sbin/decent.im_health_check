@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 
 ERRORS=0
 
@@ -17,7 +16,7 @@ services_status() {
 		ERRORS=$((ERRORS + 1))
 	fi
 
-	SERVICES="ntpd bind $PGSQL turnserver prosody spectrum nginx"
+	SERVICES="ntpd syslog-ng cronie qemu-guest-agent $PGSQL prosody biboumi nginx"
 
 	for x in $SERVICES
 	do
@@ -45,6 +44,15 @@ glsa_vulnerabilities() {
 
 services_status
 glsa_vulnerabilities
+
+source /etc/decent.im/config
+
+if [[ $(hostname) != "$DOMAIN_NAME" ]]; then
+	echo "ERROR: hostname doesn't match domain name"
+	echo "Edit /etc/conf.d/hostname to have $DOMAIN_NAME"
+	ERRORS=$((ERRORS + 1))
+fi
+
 # TODO check for OOM kills since boot
 # TODO end to end XMPP messages delivery test
 # TODO messages delivery test for gateways
