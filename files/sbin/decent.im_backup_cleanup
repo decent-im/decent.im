@@ -6,6 +6,6 @@ BKP_AGE=15 # days
 
 source /etc/decent.im/config
 
-pushd $BKP_LOCATION
+pushd $BKP_LOCATION >/dev/null
 
 find . -mindepth 1 -mtime +$BKP_AGE -delete

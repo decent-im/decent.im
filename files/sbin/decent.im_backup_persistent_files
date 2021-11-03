@@ -8,7 +8,7 @@ source /etc/decent.im/config
 
 mkdir -p $BKP_LOCATION
 chmod u=rwx,g=,o= $BKP_LOCATION
-pushd $BKP_LOCATION
+pushd $BKP_LOCATION >/dev/null
 
 tar --force-local -caf "var_spool_jabber_$(date +%FT%H:%M:%S).tar" /var/spool/jabber
 
