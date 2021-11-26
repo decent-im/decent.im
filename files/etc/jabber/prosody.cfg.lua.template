@@ -40,7 +40,8 @@ modules_enabled = {
 
 	-- Not essential, but recommended
 		"private"; -- Private XML storage (for room bookmarks, etc.)
-		"vcard"; -- Allow users to set vCards
+		-- "vcard"; -- Allow users to set vCards
+		"vcard_legacy"; -- replaced mod_vcard and handles legacy data
 
 	-- These are commented by default as they have a performance impact
 		"blocklist"; -- Allow users to block communications with other users
