@@ -93,8 +93,6 @@ modules_enabled = {
 		-- XMPP Compliance Tester pleasing. 2021-10-29
 		-- XEP-0411: Bookmarks Conversion
 		"bookmarks";
-		-- XEP-0153: vCard-Based Avatar (MUC)
-		"vcard_muc";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -232,6 +230,8 @@ Component "chat.$DOMAIN_NAME" "muc"
 	restrict_room_creation = "local"
 	modules_enabled = {
 		"muc_mam";
+		-- XEP-0153: vCard-Based Avatar (MUC)
+		"vcard_muc";
 	}
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
