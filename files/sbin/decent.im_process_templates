@@ -26,6 +26,7 @@ do
 
 	envsubst '
 		$ADMIN_JID
+		$ADMIN_EMAIL
 		$DOMAIN_NAME
 		$EXTERNAL_IP
 		$ADMIN_IP
