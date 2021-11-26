@@ -8,6 +8,9 @@ rc-service ntpd start
 rc-update add syslog-ng default
 rc-service syslog-ng start
 
+rc-update add nftables default
+rc-service nftables start
+
 rc-update add cronie default
 rc-service cronie start
 
