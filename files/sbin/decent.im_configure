@@ -32,11 +32,15 @@ echo "Detected external IP: $EXTERNAL_IP"
 echo "FQDN according to reverse DNS request: $FQDN"
 echo "Used domain name: $DOMAIN_NAME"
 
+ADMIN_IP=${SSH_CLIENT%% *}
+echo "Detected admin IP: $ADMIN_IP"
+
 
 echo "
 export DOMAIN_NAME='$DOMAIN_NAME'
 export D=\"\$DOMAIN_NAME\"
 export EXTERNAL_IP='$EXTERNAL_IP'
+export ADMIN_IP='$ADMIN_IP'
 export GITHUB_PAGES_URL='decent-im.github.io'
 
 export XMPP_DB_USER='decent.im'
