@@ -94,6 +94,8 @@ modules_enabled = {
 		-- XMPP Compliance Tester pleasing. 2021-10-29
 		-- XEP-0411: Bookmarks Conversion
 		"bookmarks";
+
+		"firewall";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -212,6 +214,12 @@ contact_info = {
 disco_items = {
 	{ "proxy.decent.im", "SOCKS5 proxy service" };
 	{ "chat.decent.im", "Chatrooms" };
+}
+
+firewall_scripts = {
+	"module:scripts/spam-blocking.pfw";
+	"module:scripts/spam-blocklists.pfw";
+	"module:scripts/spam-strip-xhtml.pfw";
 }
 
 ----------- Virtual hosts -----------
