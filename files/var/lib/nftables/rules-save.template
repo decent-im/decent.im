@@ -3,6 +3,7 @@
 flush ruleset
 
 define ADMIN_IP_SADDR = { $ADMIN_IP }
+define PSQL_REPLICATION_SADDR = { $PSQL_REPLICA_IP }
 
 table inet filter {
 	chain input {
@@ -54,6 +55,17 @@ table inet filter {
 			limit rate over 1/hour burst 5 packets \
 			drop \
 			comment "SSH connections from unknown addresses: log, rate-limit"
+
+		tcp dport 5432 ip saddr $PSQL_REPLICATION_SADDR ct state new \
+			log prefix "New PostgreSQL replication connection: " \
+			counter \
+			accept \
+			comment "PostgreSQL replication connection from expected address: log, accept"
+
+		tcp dport 5432 \
+			counter \
+			drop \
+			comment "Packet for PostgreSQL from unknown address: drop"
 
 		counter comment "count packets handled by default policy"
 	}
