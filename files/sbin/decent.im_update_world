@@ -16,3 +16,6 @@ if [[ "/proc/$PROSODY_PID" -ot /usr/bin/prosody ]] || [[ "/proc/$PROSODY_PID" -o
 then
 	rc-service prosody restart
 fi
+
+# Reset nftables ruleset unconditionally, it doesn't cause any disruption
+rc-service nftables restart
