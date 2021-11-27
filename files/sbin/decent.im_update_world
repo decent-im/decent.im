@@ -17,5 +17,6 @@ then
 	rc-service prosody restart
 fi
 
-# Reset nftables ruleset unconditionally, it doesn't cause any disruption
-rc-service nftables restart
+# Reload nftables ruleset unconditionally, it doesn't cause any disruption
+# Use reload, because restart drops the ruleset first, breaking atomicity.
+rc-service nftables reload
