@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "Weekly test of mail from cron"
