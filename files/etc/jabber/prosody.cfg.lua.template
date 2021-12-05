@@ -257,24 +257,7 @@ Component "proxy.$DOMAIN_NAME" "proxy65"
 
 Component "pubsub.$DOMAIN_NAME" "pubsub"
 
--- Skype transport
-Component "skype.$DOMAIN_NAME"
-	component_secret = "$TRANSPORT_SECRET"
-
 -- Generic IRC transport
 -- IRC server is specified in JID of requested resource
 Component "irc.$DOMAIN_NAME"
 	component_secret = "$TRANSPORT_SECRET"
-
--- Facebook transport
-Component "facebook.$DOMAIN_NAME"
-	component_secret = "$TRANSPORT_SECRET"
-
--- J2J transport
-Component "j2j.$DOMAIN_NAME"
-	component_secret = "$TRANSPORT_SECRET"
-
--- Twitter transport
-Component "twitter.$DOMAIN_NAME"
-	component_secret = "$TRANSPORT_SECRET"
-
