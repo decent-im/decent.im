@@ -14,13 +14,9 @@ certbot certonly \
 	--standalone \
 	-d $D \
 	-d chat.$D \
-	-d facebook.$D \
 	-d irc.$D \
-	-d j2j.$D \
 	-d proxy.$D \
 	-d pubsub.$D \
-	-d skype.$D \
-	-d twitter.$D \
 	;
 
 # /etc/letsencrypt is u=rwx,g=,o= owned by root, so for security and simplicity reasons it is easier to copy certs to apps' dirs than to use symlinks
