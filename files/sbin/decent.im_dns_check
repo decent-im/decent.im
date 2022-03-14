@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# Usage:
+# Optional env var AT_NS can be used to specify dig's optional @server argument.
+
+ERRORS=0
+
+source /etc/decent.im/config
+
+if [[ $(hostname) != "$DOMAIN_NAME" ]]; then
+	echo "ERROR: hostname doesn't match domain name"
+	echo "Edit /etc/conf.d/hostname to have $DOMAIN_NAME"
+	ERRORS=$((ERRORS + 1))
+fi
+
+CURRENT_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+RECOGNIZED_DOMAIN_IP=$(dig $AT_NS -t A +short "$DOMAIN_NAME")
+
+if [[ "$CURRENT_IP" != "$RECOGNIZED_DOMAIN_IP" ]]; then
+	echo "ERROR: this machine's IP address doesn't match resolved IP of $DOMAIN_NAME"
+	ERRORS=$((ERRORS + 1))
+fi
+
+# CAA
+if [[ '0 issue "letsencrypt.org"' != "$(dig $AT_NS -t CAA +short "$DOMAIN_NAME" )" ]]; then
+	echo "WARNING: DNS record $DOMAIN_NAME of type CAA resolved unexpectedly"
+	# ERRORS=$((ERRORS + 1))
+fi
+
+# MX
+if [[ "10 $DOMAIN_NAME." != "$(dig $AT_NS -t MX +short "$DOMAIN_NAME" )" ]]; then
+	echo "DNS record $DOMAIN_NAME of type MX resolved unexpectedly"
+	ERRORS=$((ERRORS + 1))
+fi
+
+# CNAME
+for SUBDOMAIN in chat irc proxy pubsub upload ; do
+	if [[ "$DOMAIN_NAME." != "$(dig $AT_NS -t CNAME +short "$SUBDOMAIN.$DOMAIN_NAME" )" ]]; then
+		echo "DNS record $SUBDOMAIN.$DOMAIN_NAME of type CNAME resolved unexpectedly"
+		ERRORS=$((ERRORS + 1))
+	fi
+done
+
+# SRV
+# The first "10 " in the reference and the expected value is the record priority.
+# It's just what `dig +short` prints.
+for SUBDOMAIN in _stun._tcp _stun._udp  _turn._tcp _turn._udp; do
+	if [[ "10 10 3478 $DOMAIN_NAME." != "$(dig $AT_NS -t SRV +short "$SUBDOMAIN.$DOMAIN_NAME" )" ]]; then
+		echo "DNS record $SUBDOMAIN.$DOMAIN_NAME of type SRV resolved unexpectedly"
+		ERRORS=$((ERRORS + 1))
+	fi
+done
+
+for SUBDOMAIN in _stuns._tcp _turns._tcp ; do
+	if [[ "10 10 5349 $DOMAIN_NAME." != "$(dig $AT_NS -t SRV +short "$SUBDOMAIN.$DOMAIN_NAME" )" ]]; then
+		echo "DNS record $SUBDOMAIN.$DOMAIN_NAME of type SRV resolved unexpectedly"
+		ERRORS=$((ERRORS + 1))
+	fi
+done
+
+SUBDOMAIN=_xmpp-client._tcp
+if [[ "10 10 5222 $DOMAIN_NAME." != "$(dig $AT_NS -t srv +short "$SUBDOMAIN.$DOMAIN_NAME" )" ]]; then
+	echo "DNS record $SUBDOMAIN.$DOMAIN_NAME of type srv resolved unexpectedly"
+	ERRORS=$((ERRORS + 1))
+fi
+
+SUBDOMAIN=_xmpps-client._tcp
+if [[ "10 10 5223 $DOMAIN_NAME." != "$(dig $AT_NS -t SRV +short "$SUBDOMAIN.$DOMAIN_NAME" )" ]]; then
+	echo "DNS record $SUBDOMAIN.$DOMAIN_NAME of type SRV resolved unexpectedly"
+	ERRORS=$((ERRORS + 1))
+fi
+
+SUBDOMAIN=_xmpp-server._tcp
+if [[ "10 10 5269 $DOMAIN_NAME." != "$(dig $AT_NS -t SRV +short "$SUBDOMAIN.$DOMAIN_NAME" )" ]]; then
+	echo "DNS record $SUBDOMAIN.$DOMAIN_NAME of type SRV resolved unexpectedly"
+	ERRORS=$((ERRORS + 1))
+fi
+
+
+echo "$ERRORS errors found"
+if [[ "$ERRORS" == 0 ]]; then
+	exit 0
+else
+	exit 1
+fi
