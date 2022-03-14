@@ -5,6 +5,9 @@ flush ruleset
 define ADMIN_IP_SADDR = { $ADMIN_IP }
 define PSQL_REPLICATION_SADDR = { $PSQL_REPLICA_IP }
 
+include "/etc/decent.im/nft-blocklist-v4"
+include "/etc/decent.im/nft-blocklist-v6"
+
 table inet filter {
 	chain input {
 		type filter hook input priority 0; policy accept;
