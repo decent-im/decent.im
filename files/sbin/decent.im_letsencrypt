@@ -6,6 +6,9 @@ set -e
 # letsencrypt requires port 80
 rc-service nginx stop
 
+# Note: changing the set of domains leads to creation of a new dir named domain-0001
+# Manual intervention is needed
+
 certbot certonly \
 	--agree-tos \
 	--email $ADMIN_EMAIL \
