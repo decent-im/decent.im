@@ -96,6 +96,7 @@ modules_enabled = {
 		"bookmarks";
 
 		"firewall";
+		"limit_auth";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -221,6 +222,10 @@ firewall_scripts = {
 	"module:scripts/spam-blocklists.pfw";
 	"module:scripts/spam-strip-xhtml.pfw";
 }
+
+limit_auth_period = 3600 -- over ... seconds
+limit_auth_max = 1 -- tolerate no more than ... failed attempts
+limit_auth_tarpit_delay = 100 -- delay answer this long
 
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
