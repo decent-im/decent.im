@@ -8,6 +8,7 @@ emerge -qt --keep-going @smart-live-rebuild
 revdep-rebuild
 
 decent.im_process_templates
+grub-mkconfig -o /boot/grub/grub.cfg
 
 # Restart services if they, or their configs, were updated
 
