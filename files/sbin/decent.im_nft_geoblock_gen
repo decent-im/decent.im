@@ -1,0 +1,39 @@
+#!/usr/bin/python3
+
+def format_entries(filepath):
+    with open(filepath) as f:
+        data = f.read()
+
+    data_list = data.splitlines()
+    data_without_comments = [12*' ' + d for d in data_list if d[0] != '#']
+
+    return ',\n'.join(data_without_comments)
+
+
+print('''
+table netdev geo-filter {
+    set filter-v4 {
+        type ipv4_addr
+        flags interval
+        auto-merge
+        elements = {''')
+print(format_entries('/var/cache/rir-ip/country/ru/ipv4-aggregated.txt'))
+print('''        }
+    }
+
+    set filter-v6 {
+        type ipv6_addr
+        flags interval
+        auto-merge
+        elements = {''')
+print(format_entries('/var/cache/rir-ip/country/ru/ipv6-aggregated.txt'))
+print('''        }
+    }
+    chain filter-chain {
+        type filter hook ingress device "eth0" priority -190; policy accept;
+        ip saddr @filter-v4 counter packets 0 bytes 0 drop
+        ip6 saddr @filter-v6 counter packets 0 bytes 0 drop
+        counter packets 0 bytes 0 accept
+    }
+}
+''')

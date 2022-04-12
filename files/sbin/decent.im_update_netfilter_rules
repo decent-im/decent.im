@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+# Update per-country IP blocks database
+git -C /var/cache/rir-ip pull \
+|| git clone https://github.com/ipverse/rir-ip /var/cache/rir-ip
+
+# generate new rules
+mkdir -p /etc/nftables.d/{tmp,bkp}
+
+# geoblocking
+tmpfile=$(mktemp --tmpdir=/etc/nftables.d/tmp --suffix=decent_im_geoblock)
+decent.im_nft_geoblock_gen > "$tmpfile"
+# backup the previous rules, if exist
+cp -a /etc/nftables.d/decent.im_geoblock /etc/nftables.d/bkp/decent.im_geoblock.$(date +%F) || true
+# atomically move the new rules file
+mv "$tmpfile" /etc/nftables.d/decent.im_geoblock
+
+# pick up the changes
+# reads /var/lib/nftables/rules-save by default.
+# decent.im rules are supposed to be indirectly included from there
+# one possible way:
+# /var/lib/nftables/rules-save -> include /etc/nftables.conf
+# /etc/nftables.conf -> flush ruleset; include /etc/nftables.d/{a,b,c}
+/etc/init.d/nftables reload
