@@ -31,9 +31,15 @@ print('''        }
     }
     chain filter-chain {
         type filter hook ingress device "eth0" priority -190; policy accept;
-        ip saddr @filter-v4 counter packets 0 bytes 0 drop
-        ip6 saddr @filter-v6 counter packets 0 bytes 0 drop
-        counter packets 0 bytes 0 accept
+        ip saddr @filter-v4 \
+                log prefix "RU dropped: " \
+                counter \
+                drop
+        ip6 saddr @filter-v6 \
+                log prefix "RU dropped: " \
+                counter \
+                drop
+        counter accept
     }
 }
 ''')
