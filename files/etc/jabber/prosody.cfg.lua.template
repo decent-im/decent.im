@@ -217,6 +217,7 @@ firewall_scripts = {
 	"module:scripts/spam-blocking.pfw";
 	"module:scripts/spam-blocklists.pfw";
 	"module:scripts/spam-strip-xhtml.pfw";
+	"/etc/decent.im/custom-firewall-rules.pfw";
 }
 
 limit_auth_period = 3600 -- over ... seconds
