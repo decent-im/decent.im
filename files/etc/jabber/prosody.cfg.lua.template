@@ -21,7 +21,7 @@ admins = { "$ADMIN_JID" }
 
 -- Enable use of libevent for better performance under high load
 -- For more information see: http://prosody.im/doc/libevent
-use_libevent = true
+network_backend = "event"
 
 -- This is the list of modules Prosody will load on startup.
 -- It looks for mod_modulename.lua in the plugins folder, so make sure that exists too.
@@ -118,7 +118,7 @@ ssl = {
 	key = "/etc/jabber/certs/$DOMAIN_NAME.key";
 	certificate = "/etc/jabber/certs/$DOMAIN_NAME.crt";
 }
-legacy_ssl_ports = { 5223 }
+c2s_direct_tls_ports = { 5223 }
 
 -- Force clients to use encrypted connections? This option will
 -- prevent clients from authenticating unless they are using encryption.
@@ -198,10 +198,6 @@ max_history_messages = 1000
 -- mod_turncredential
 turncredentials_host = "$EXTERNAL_IP"
 turncredentials_secret = "$TURN_SECRET"
-
--- allow connections from web apps deployed elsewhere
-cross_domain_websocket = true
-cross_domain_bosh = true
 
 contact_info = {
 	abuse = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
