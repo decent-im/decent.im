@@ -53,6 +53,12 @@ if [[ $(hostname) != "$DOMAIN_NAME" ]]; then
 	ERRORS=$((ERRORS + 1))
 fi
 
+if [[ $(eselect lua show) != "lua5.4" ]]; then
+	echo "ERROR: The system should be switched to Lua 5.4"
+	echo "Run: eselect lua set lua5.4"
+	ERRORS=$((ERRORS + 1))
+fi
+
 # TODO check for OOM kills since boot
 # TODO end to end XMPP messages delivery test
 # TODO messages delivery test for gateways

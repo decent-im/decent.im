@@ -9,6 +9,7 @@ revdep-rebuild
 
 decent.im_process_templates
 grub-mkconfig -o /boot/grub/grub.cfg
+eselect lua set lua5.4
 
 # Restart services if they, or their configs, were updated
 
