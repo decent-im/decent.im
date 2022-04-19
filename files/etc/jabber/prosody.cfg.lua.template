@@ -115,8 +115,8 @@ allow_registration = false
 -- These are the SSL/TLS-related settings. If you don't want
 -- to use SSL/TLS, you may comment or remove this
 ssl = {
-	key = "/etc/jabber/certs/$DOMAIN_NAME.key";
-	certificate = "/etc/jabber/certs/$DOMAIN_NAME.crt";
+	key = "/etc/prosody/certs/$DOMAIN_NAME.key";
+	certificate = "/etc/prosody/certs/$DOMAIN_NAME.crt";
 }
 c2s_direct_tls_ports = { 5223 }
 
@@ -170,18 +170,18 @@ sql = { driver = "PostgreSQL", database = "$XMPP_DB_NAME", username = "$XMPP_DB_
 -- Logging configuration
 -- For advanced logging see http://prosody.im/doc/logging
 log = {
-	info = "/var/log/jabber/prosody.log"; -- Change 'info' to 'debug' for verbose logging
-	error = { "/var/log/jabber/prosody.err", "*syslog" };
+	info = "/var/log/prosody/prosody.log"; -- Change 'info' to 'debug' for verbose logging
+	error = { "/var/log/prosody/prosody.err", "*syslog" };
 	-- "*syslog"; -- Uncomment this for logging to syslog; needs mod_posix
 	-- "*console"; -- Log to the console, useful for debugging with daemonize=false
 }
 
 -- Pidfile, used by prosodyctl and the init.d script
-pidfile = "/var/run/jabber/prosody.pid"
+pidfile = "/var/run/prosody/prosody.pid"
 
 -- User and group, used for daemon
-prosody_user = "jabber"
-prosody_group = "jabber"
+prosody_user = "prosody"
+prosody_group = "prosody"
 
 
 ----- Additional global settings by $DOMAIN_NAME -----

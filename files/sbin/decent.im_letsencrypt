@@ -24,8 +24,8 @@ certbot certonly \
 
 # /etc/letsencrypt is u=rwx,g=,o= owned by root, so for security and simplicity reasons it is easier to copy certs to apps' dirs than to use symlinks
 
-cp /etc/letsencrypt/live/$D/privkey.pem   /etc/jabber/certs/${D}.key
-cp /etc/letsencrypt/live/$D/fullchain.pem /etc/jabber/certs/${D}.crt
+cp /etc/letsencrypt/live/$D/privkey.pem   /etc/prosody/certs/${D}.key
+cp /etc/letsencrypt/live/$D/fullchain.pem /etc/prosody/certs/${D}.crt
 
 mkdir -p /etc/nginx/certs
 chown nginx.root /etc/nginx/certs/

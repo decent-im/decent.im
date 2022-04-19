@@ -12,8 +12,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # Restart services if they, or their configs, were updated
 
-PROSODY_PID=`cat /run/jabber/prosody.pid`
-if [[ "/proc/$PROSODY_PID" -ot /usr/bin/prosody ]] || [[ "/proc/$PROSODY_PID" -ot /etc/jabber/prosody.cfg.lua ]]
+PROSODY_PID=`cat /run/prosody/prosody.pid`
+if [[ "/proc/$PROSODY_PID" -ot /usr/bin/prosody ]] || [[ "/proc/$PROSODY_PID" -ot /etc/prosody/prosody.cfg.lua ]]
 then
 	rc-service prosody restart
 fi
