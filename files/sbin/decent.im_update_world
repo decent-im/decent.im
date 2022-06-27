@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
 . /etc/decent.im/config
 
@@ -22,3 +23,5 @@ fi
 # Reload nftables ruleset unconditionally, it doesn't cause any disruption
 # Use reload, because restart drops the ruleset first, breaking atomicity.
 rc-service nftables reload
+
+touch /var/lib/decent.im/update_world.done

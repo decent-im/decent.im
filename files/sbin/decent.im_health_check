@@ -59,6 +59,19 @@ if [[ $(eselect lua show) != "lua5.4" ]]; then
 	ERRORS=$((ERRORS + 1))
 fi
 
+
+if [[ $(find /var/lib/decent.im/update_world.done -newermt "1 week ago") == '' ]]; then
+	echo "ERROR: last successful world update has been longer than a week ago"
+	echo "Run: decent.im_update_world"
+	ERRORS=$((ERRORS + 1))
+fi
+
+if [[ $(find /etc/nftables.d/decent.im_geoblock -newermt "1 week ago") == '' ]]; then
+	echo "ERROR: last successful update of geoblocking rules has been longer than a week ago"
+	echo "Run: decent.im_update_netfilter_rules"
+	ERRORS=$((ERRORS + 1))
+fi
+
 # TODO check for OOM kills since boot
 # TODO end to end XMPP messages delivery test
 # TODO messages delivery test for gateways
