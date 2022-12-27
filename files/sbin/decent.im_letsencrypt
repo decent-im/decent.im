@@ -26,6 +26,8 @@ certbot certonly \
 
 cp /etc/letsencrypt/live/$D/privkey.pem   /etc/prosody/certs/${D}.key
 cp /etc/letsencrypt/live/$D/fullchain.pem /etc/prosody/certs/${D}.crt
+chown -R root:prosody /etc/prosody/certs/
+chmod -R u=rwx,g=rx,o= /etc/prosody/certs/
 
 mkdir -p /etc/nginx/certs
 chown nginx.root /etc/nginx/certs/
