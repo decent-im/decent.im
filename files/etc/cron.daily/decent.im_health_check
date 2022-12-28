@@ -1,0 +1,2 @@
+#!/bin/sh
+exec decent.im_health_check
