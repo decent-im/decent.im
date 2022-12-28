@@ -16,7 +16,7 @@ services_status() {
 		ERRORS=$((ERRORS + 1))
 	fi
 
-	SERVICES="ntpd syslog-ng nftables cronie qemu-guest-agent $PGSQL prosody nginx turnserver"
+	SERVICES="ntpd syslog-ng nftables nullmailer cronie qemu-guest-agent $PGSQL prosody nginx turnserver"
 
 	for x in $SERVICES
 	do
