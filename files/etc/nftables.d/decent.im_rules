@@ -55,6 +55,12 @@ table inet filter {
 			accept \
 			comment "PostgreSQL replication connection from expected address: log, accept"
 
+		tcp dport 5432 ip saddr $ADMIN_IP_SADDR ct state new \
+			log prefix "New PostgreSQL replication connection: " \
+			counter \
+			accept \
+			comment "PostgreSQL replication connection from admin address: log, accept"
+
 		tcp dport 5432 \
 			counter \
 			drop \
