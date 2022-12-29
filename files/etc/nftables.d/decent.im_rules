@@ -45,11 +45,9 @@ table inet filter {
 			comment "SSH connections from admin addresses: log, accept"
 
 		tcp dport 22 ct state new \
-			log prefix "New SSH connection from unrecognized address: " \
 			counter \
-			limit rate over 1/hour burst 5 packets \
 			drop \
-			comment "SSH connections from unknown addresses: log, rate-limit"
+			comment "SSH connections from unknown addresses: drop"
 
 		tcp dport 5432 ip saddr $PSQL_REPLICATION_SADDR ct state new \
 			log prefix "New PostgreSQL replication connection: " \
