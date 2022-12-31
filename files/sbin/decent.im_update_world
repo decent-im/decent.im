@@ -8,9 +8,8 @@ emerge --sync --quiet
 emerge -qtuDN --keep-going --verbose-conflicts --backtrack=30 --with-bdeps=y @world
 emerge -qt --keep-going @smart-live-rebuild
 revdep-rebuild
-
+eclean-kernel --num 2 --destructive # it also does `grub-mkconfig -o /boot/grub/grub.cfg`
 decent.im_process_templates
-grub-mkconfig -o /boot/grub/grub.cfg
 eselect lua set lua5.4
 
 # Restart services if they, or their configs, were updated
