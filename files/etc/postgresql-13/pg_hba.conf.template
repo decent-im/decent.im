@@ -1,0 +1,21 @@
+# decent.im note: default entries:
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+
+# decent.im note: standard entries above --^
+# decent.im custom entries below:
+hostssl replication     all             $PSQL_REPLICA_IP/32     md5
+hostssl all             all             $PSQL_REPLICA_IP/32     md5
+
+hostssl replication     all             $ADMIN_IP               md5
+hostssl all             all             $ADMIN_IP               md5
