@@ -11,6 +11,7 @@ chmod u=rwx,g=,o= $BKP_LOCATION
 pushd $BKP_LOCATION >/dev/null
 
 tar --force-local -caf "var_spool_prosody_$(date +%FT%H:%M:%S).tar" /var/spool/prosody
+tar --force-local -caf "var_lib_prosody_$(date +%FT%H:%M:%S).tar" /var/lib/prosody
 
 tar --force-local -caf "etc_letsencrypt_$(date +%FT%H:%M:%S).tar" /etc/letsencrypt
 
