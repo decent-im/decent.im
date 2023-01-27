@@ -1,3 +1,4 @@
+MAILTO=root
 # m hh dom mon dow user       command
 0   12  *   *  tue root       chronic bash -lc "(set -o pipefail; decent.im_update_world 2>&1 | tee -a /var/log/decent.im_update_world.log)"
 
