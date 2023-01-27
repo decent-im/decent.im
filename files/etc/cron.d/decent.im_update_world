@@ -1,5 +1,5 @@
 # m hh dom mon dow user       command
-0   12  *   *  tue root       . /etc/profile && decent.im_update_world &> /var/log/decent.im_update_world.log || echo "System update failed"
+0   12  *   *  tue root       chronic bash -lc "(set -o pipefail; decent.im_update_world 2>&1 | tee -a /var/log/decent.im_update_world.log)"
 
 # Assuming that update may harm system operational status, let's perform update
 # during working week & time so that admin is more probably able to notice and
