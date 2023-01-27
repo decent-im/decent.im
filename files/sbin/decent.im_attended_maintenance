@@ -9,7 +9,7 @@ decent.im_update_world
 
 dispatch-conf
 
-emerge --ask --depclean
+emerge --ask --depclean --exclude=postgresql
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
