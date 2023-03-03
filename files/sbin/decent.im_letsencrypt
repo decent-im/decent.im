@@ -30,7 +30,7 @@ chown -R root:prosody /etc/prosody/certs/
 chmod -R u=rwx,g=rx,o= /etc/prosody/certs/
 
 mkdir -p /etc/nginx/certs
-chown nginx.root /etc/nginx/certs/
+chown nginx:root /etc/nginx/certs/
 chmod u=rx,g=,o= /etc/nginx/certs/
 cp /etc/letsencrypt/live/$D/* /etc/nginx/certs/
 mkdir -p /etc/nginx/conf.d
