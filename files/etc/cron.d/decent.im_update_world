@@ -1,6 +1,7 @@
 MAILTO=root
+LOGFILE=/var/log/decent.im_update_world.log
 # m hh dom mon dow user       command
-0   12  *   *  tue root       . /etc/profile && decent.im_update_world &> /var/log/decent.im_update_world.log
+0   12  *   *  tue root       . /etc/profile && decent.im_update_world &> $LOGFILE || tail $LOGFILE
 
 # Assuming that update may harm system operational status, let's perform update
 # during working week & time so that admin is more probably able to notice and
