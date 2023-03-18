@@ -22,7 +22,16 @@ certbot certonly \
 	-d pubsub.$D \
 	;
 
-# /etc/letsencrypt is u=rwx,g=,o= owned by root, so for security and simplicity reasons it is easier to copy certs to apps' dirs than to use symlinks
+# /etc/letsencrypt is u=rwx,g=,o= owned by root
+# prosody and nginx get copies of certificates
+# just because I used it this way
+# but I got tired of it with turnserver
+
+if ! getent group decentim-tls-daemons; then
+	groupadd --users nginx,prosody,turnserver decentim-tls-daemons
+fi
+chgrp -vR decentim-tls-daemons /etc/letsencrypt/{live,archive}
+chmod g=rx -vR /etc/letsencrypt/{live,archive}
 
 cp /etc/letsencrypt/live/$D/privkey.pem   /etc/prosody/certs/${D}.key
 cp /etc/letsencrypt/live/$D/fullchain.pem /etc/prosody/certs/${D}.crt
