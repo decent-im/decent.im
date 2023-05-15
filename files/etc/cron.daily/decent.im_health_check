@@ -1,2 +1,2 @@
 #!/bin/sh
-exec decent.im_health_check
+exec chronic decent.im_health_check
