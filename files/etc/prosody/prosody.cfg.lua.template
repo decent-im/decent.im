@@ -19,10 +19,6 @@
 -- Example: admins = { "user1@example.com", "user2@example.net" }
 admins = { "$ADMIN_JID" }
 
--- Enable use of libevent for better performance under high load
--- For more information see: http://prosody.im/doc/libevent
-network_backend = "event"
-
 -- This is the list of modules Prosody will load on startup.
 -- It looks for mod_modulename.lua in the plugins folder, so make sure that exists too.
 -- Documentation on modules can be found at: http://prosody.im/doc/modules
