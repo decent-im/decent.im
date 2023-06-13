@@ -41,6 +41,7 @@ export DOMAIN_NAME='$DOMAIN_NAME'
 export D=\"\$DOMAIN_NAME\"
 export EXTERNAL_IP='$EXTERNAL_IP'
 export ADMIN_IP='$ADMIN_IP'
+export PSQL_REPLICA_IP='$ADMIN_IP'
 export GITHUB_PAGES_URL='decent-im.github.io'
 
 export XMPP_DB_USER='decent.im'
