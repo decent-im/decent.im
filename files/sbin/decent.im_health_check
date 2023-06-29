@@ -36,7 +36,7 @@ glsa_vulnerabilities() {
 	# Check GLSA (Gentoo Security Advisories)
 	AFFECTED=$(glsa-check --test affected)
 	if [[ "$AFFECTED" != "" ]]; then
-		echo "ERROR: Vulnerable packages present"
+		echo "ERROR: Vulnerable per these advisories: $AFFECTED"
 		echo "Run 'glsa-check --pretend affected' and 'glsa-check --fix affected'"
 		ERRORS=$((ERRORS + 1))
 	fi
