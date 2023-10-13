@@ -97,6 +97,8 @@ modules_enabled = {
 		"firewall";
 		"limit_auth";
 		"block_strangers";
+
+		"auto_moved";
 }
 
 -- These modules are auto-loaded, but should you want
