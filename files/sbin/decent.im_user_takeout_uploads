@@ -1,0 +1,69 @@
+#!/usr/bin/env python
+
+# Usage:
+# $0 [username.list.json]
+# creates a directory with all user's uploads organized as mod_http_upload storage.
+
+import json
+from pathlib import Path, PurePath
+from shutil import copyfile
+import os
+import sys
+
+base_path = PurePath("/var/lib/prosody/http_upload")
+uploads = json.load(open(sys.argv[1]))
+print("Uploads to copy: {}".format(len(uploads)))
+for upload in uploads:
+    #print(upload)
+    assert \
+            upload['filename'].startswith('/')     and not upload.get('dir') or \
+            not upload['filename'].startswith('/') and     upload.get('dir')
+
+    if upload['filename'].startswith('/'):
+        assert not upload.get('dir')
+        path_parts = PurePath(upload['filename']).parts
+        assert path_parts[:5] == base_path.parts
+        assert len(path_parts) == 7 # above, + dir/file.ext
+        # munge old style records into new style
+        upload['dir'] = path_parts[5]
+        upload['abs_path'] = upload['filename']
+        upload['filename'] = path_parts[6]
+
+    assert upload.get('dir')
+    path_parts = PurePath(upload['filename']).parts
+    assert len(path_parts) == 1
+    src_dir = base_path / upload["dir"]
+    src_path = src_dir / upload['filename']
+
+    if not os.path.exists(src_path):
+        print('!', end='')
+        print()
+        print(upload)
+        continue
+
+    assert upload['size'] == os.path.getsize(src_path)
+    #print(upload['time'])
+    #print(os.path.getmtime(src_path))
+    #print(os.path.getmtime(src_path) - upload['time'])
+
+    if upload['time'] > 1650367000: # April 19, 2022 there was some migration which didn't respect timestamps
+        reasonable_time_mismatch = 3600
+        time_mismatch = os.path.getmtime(src_path) - upload['time']
+        if not (time_mismatch < reasonable_time_mismatch):
+            print('?', end='')
+            print(upload)
+            raise Exception(f"Big mismatch of {time_mismatch} between registered time and file timestamp for {src_path}")
+
+    dst_dir = Path(upload["dir"]) # in current dir
+    if not os.path.exists(dst_dir):
+        os.mkdir(dst_dir)
+        os.utime(dst_dir, (os.path.getatime(src_dir), os.path.getmtime(src_dir)))
+    dst_path = dst_dir / upload['filename']
+    if not os.path.exists(dst_path):
+        copyfile(src_path, dst_path)
+        os.utime(dst_path, (os.path.getatime(src_path), os.path.getmtime(src_path)))
+        print('.', end='')
+    else:
+        assert upload['size'] == os.path.getsize(dst_path)
+        print('`', end='')
+print()

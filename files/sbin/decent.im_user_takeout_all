@@ -1,0 +1,93 @@
+#!/bin/bash
+set -e
+set -u
+set -o pipefail
+
+# return totally all data which is attributable to specific user
+
+# Usage:
+# $0 [username]
+# creates a directory and a compressed archive
+
+
+# emerge dev-python/pip
+# python -m venv venv
+# . ./venv/bin/activate
+# pip install db-to-sqlite[postgresql]
+
+SCRIPT_DIR=$(dirname $(readlink -f $0) )
+source /etc/decent.im/config
+
+XMPP_USERNAME="$1"
+[[ -n "$XMPP_USERNAME" ]]
+XMPP_USERNAME_UE="${XMPP_USERNAME/./%2e}"
+#DOMAIN_NAME="decent.im" # sourced from /etc/decent.im/config
+DOMAIN_UE="${DOMAIN_NAME/./%2e}"
+
+DATE=$(date +%F_%T)
+
+DIR="takeout.$XMPP_USERNAME_UE.$DATE"
+mkdir "$DIR"
+pushd "$DIR" >/dev/null
+
+OUT_DB_FILENAME="archive_and_settings.db"
+time db-to-sqlite \
+	"postgresql://${XMPP_DB_USER}:${XMPP_DB_PASS}@localhost/${XMPP_DB_NAME}" \
+	"$OUT_DB_FILENAME" \
+	--output=prosodyarchive \
+	--sql="select * from prosodyarchive as pa where pa.user = '$XMPP_USERNAME'" \
+	--pk=sort_id
+time db-to-sqlite \
+	"postgresql://${XMPP_DB_USER}:${XMPP_DB_PASS}@localhost/${XMPP_DB_NAME}" \
+	"$OUT_DB_FILENAME" \
+	--output=prosody \
+	--sql="select * from prosody as p where p.user = '$XMPP_USERNAME'" \
+	--pk=sort_id
+
+
+# uploads - pictures etc via http
+# /var/lib/prosody/http_upload
+# full of directories
+# /var/lib/prosody/decent%2eim/http_upload/andrey%2eutkin.list - registry of user-owned uploads
+# lua table-ish format:
+#
+#item({
+#	["filename"] = "glib-unstable.png";
+#	["time"] = 1553530889;
+#	["size"] = 8551;
+#	["dir"] = "Uja39WiYsKAFRuz2";
+#});
+
+cp /var/lib/prosody/decent%2eim/http_upload/"$XMPP_USERNAME_UE".list .
+# TODO minimize privileges of python process
+(
+echo 'arr = ['
+cat /var/lib/prosody/"$DOMAIN_UE"/http_upload/"$XMPP_USERNAME_UE".list \
+| sed \
+	-e 's/\([a-z]\+\) = /["\1"] = /  # some records are just `fieldname = ...`, ensure they are like ["fieldname"] = ...' \
+	-e 's/item(//  # drop record preamble to turn them into python dicts' \
+	-e 's/);/,/    # drop record post-amble; use commas between records' \
+	-e 's/ = /: /  # python dicts use colons for name:value' \
+	-e 's/;/,/     # commas between fields' \
+| tr -d ']['
+echo ']'
+echo 'import json, sys'
+echo 'json.dump(arr, fp=sys.stdout)'
+) | python > "$XMPP_USERNAME".list.json
+jq . < "$XMPP_USERNAME".list.json > /dev/null # just a correctness check
+mkdir uploads
+pushd uploads >/dev/null
+# system install or not, these are likely to live in the same dir
+"$SCRIPT_DIR"/decent.im_user_takeout_uploads ../"$XMPP_USERNAME".list.json | tee ../takeout_uploads.log
+popd >/dev/null # uploads
+
+# TODO transports data
+# TODO prosody logs matches? beware of matching elton.john@example.com when searching for john@example.com
+popd >/dev/null # $DIR
+
+# zstd --single-thread for low memory use. When lots of RAM, use -T0 instead.
+tar -caf - --force-local "$DIR" \
+| /usr/bin/time -v zstd -c -k --ultra --single-thread -22 \
+> "$DIR.tar.zst"
+
+rm -rf "$DIR"
