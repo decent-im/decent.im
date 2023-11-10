@@ -99,6 +99,9 @@ modules_enabled = {
 		"block_strangers";
 
 		"auto_moved";
+
+		"spam_reporting";
+		"watch_spam_reports";
 }
 
 -- These modules are auto-loaded, but should you want
