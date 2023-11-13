@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+set -u
+set -o pipefail
+
+# Delete user's archived data (messages, uploads, etc) older than given threshold age.
+
+XMPP_USERNAME="$1"
+[[ -n "$XMPP_USERNAME" ]]
+: ${MAX_AGE_DAYS:=31}
+
+source /etc/decent.im/config
+MAX_AGE_SEC=$(( 60 * 60 * 24 * $MAX_AGE_DAYS ))
+NOW_TIMESTAMP=$(date +%s)
+CUTOFF_TIMESTAMP=$(( NOW_TIMESTAMP - MAX_AGE_SEC ))
+
+prosodyctl mod_http_upload expire-after "$MAX_AGE_SEC" "$XMPP_USERNAME@$DOMAIN_NAME"
+
+psql "postgresql://${XMPP_DB_USER}:${XMPP_DB_PASS}@localhost/${XMPP_DB_NAME}" << EOF
+DELETE FROM prosodyarchive WHERE "user" = '$XMPP_USERNAME' AND "host" = '$DOMAIN_NAME' AND "when" < $CUTOFF_TIMESTAMP;
+EOF
