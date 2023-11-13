@@ -229,6 +229,8 @@ limit_auth_period = 3600 -- over ... seconds
 limit_auth_max = 1 -- tolerate no more than ... failed attempts
 limit_auth_tarpit_delay = 100 -- delay answer this long
 
+http_upload_quota = 1 * (1024*1024*1024) -- 1 GiB of total stored uploads is allowed per user
+
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.
