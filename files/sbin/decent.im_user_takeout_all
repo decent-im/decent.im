@@ -58,7 +58,7 @@ time db-to-sqlite \
 #	["dir"] = "Uja39WiYsKAFRuz2";
 #});
 
-cp /var/lib/prosody/decent%2eim/http_upload/"$XMPP_USERNAME_UE".list .
+cp /var/lib/prosody/"$DOMAIN_UE"/http_upload/"$XMPP_USERNAME_UE".list .
 # TODO minimize privileges of python process
 (
 echo 'arr = ['
