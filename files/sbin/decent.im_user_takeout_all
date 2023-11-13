@@ -58,28 +58,31 @@ time db-to-sqlite \
 #	["dir"] = "Uja39WiYsKAFRuz2";
 #});
 
-cp /var/lib/prosody/"$DOMAIN_UE"/http_upload/"$XMPP_USERNAME_UE".list .
-# TODO minimize privileges of python process
-(
-echo 'arr = ['
-cat /var/lib/prosody/"$DOMAIN_UE"/http_upload/"$XMPP_USERNAME_UE".list \
-| sed \
-	-e 's/\([a-z]\+\) = /["\1"] = /  # some records are just `fieldname = ...`, ensure they are like ["fieldname"] = ...' \
-	-e 's/item(//  # drop record preamble to turn them into python dicts' \
-	-e 's/);/,/    # drop record post-amble; use commas between records' \
-	-e 's/ = /: /  # python dicts use colons for name:value' \
-	-e 's/;/,/     # commas between fields' \
-| tr -d ']['
-echo ']'
-echo 'import json, sys'
-echo 'json.dump(arr, fp=sys.stdout)'
-) | python > "$XMPP_USERNAME".list.json
-jq . < "$XMPP_USERNAME".list.json > /dev/null # just a correctness check
-mkdir uploads
-pushd uploads >/dev/null
-# system install or not, these are likely to live in the same dir
-"$SCRIPT_DIR"/decent.im_user_takeout_uploads ../"$XMPP_USERNAME".list.json | tee ../takeout_uploads.log
-popd >/dev/null # uploads
+UPLOADS_LIST_FILE=/var/lib/prosody/"$DOMAIN_UE"/http_upload/"$XMPP_USERNAME_UE".list
+if [[ -d "$UPLOADS_LIST_FILE" ]]; then
+	cp "$UPLOADS_LIST_FILE" .
+	# TODO minimize privileges of python process
+	(
+	echo 'arr = ['
+	cat "$UPLOADS_LIST_FILE" \
+	| sed \
+		-e 's/\([a-z]\+\) = /["\1"] = /  # some records are just `fieldname = ...`, ensure they are like ["fieldname"] = ...' \
+		-e 's/item(//  # drop record preamble to turn them into python dicts' \
+		-e 's/);/,/    # drop record post-amble; use commas between records' \
+		-e 's/ = /: /  # python dicts use colons for name:value' \
+		-e 's/;/,/     # commas between fields' \
+	| tr -d ']['
+	echo ']'
+	echo 'import json, sys'
+	echo 'json.dump(arr, fp=sys.stdout)'
+	) | python > "$XMPP_USERNAME".list.json
+	jq . < "$XMPP_USERNAME".list.json > /dev/null # just a correctness check
+	mkdir uploads
+	pushd uploads >/dev/null
+	# system install or not, these are likely to live in the same dir
+	"$SCRIPT_DIR"/decent.im_user_takeout_uploads ../"$XMPP_USERNAME".list.json | tee ../takeout_uploads.log
+	popd >/dev/null # uploads
+fi
 
 # TODO transports data
 # TODO prosody logs matches? beware of matching elton.john@example.com when searching for john@example.com
