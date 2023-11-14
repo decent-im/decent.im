@@ -103,10 +103,10 @@ modules_enabled = {
 		"spam_reporting";
 		"watch_spam_reports";
 
-		"audit";
-		"audit_auth";
-		"audit_register";
-		"audit_status";
+		-- "audit";
+		-- "audit_auth";
+		-- "audit_register";
+		-- "audit_status";
 }
 
 -- These modules are auto-loaded, but should you want
