@@ -47,9 +47,6 @@ modules_enabled = {
 
 	-- Nice to have
 		"csi_simple"; -- Simple but effective traffic optimizations for mobile devices
-		--"invites"; -- Create and manage invites
-		--"invites_adhoc"; -- Allow admins/users to create invitations via their client
-		--"invites_register"; -- Allows invited users to create accounts
 		"ping"; -- Replies to XMPP pings with pongs
 		"register"; -- Allow users to register on this server using a client and change passwords
 		"time"; -- Let others know the time here on this server
@@ -107,6 +104,19 @@ modules_enabled = {
 		-- "audit_auth";
 		-- "audit_register";
 		-- "audit_status";
+
+		"invites"; -- Create and manage invites
+		"invites_adhoc"; -- Allow admins/users to create invitations via their client
+		"invites_register"; -- Allows invited users to create accounts
+		"invites_tracking";
+		"invites_page"; -- provides a unique web page for each generated invitation. Without this module, Prosody will only be able to generate invite links as xmpp: URIs
+		"invites_register_web"; -- web-based registration form that validates invite tokens
+
+		"conversejs";
+
+		"compliance_2021";
+		"http_health";
+		"support_contact";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -218,6 +228,9 @@ contact_info = {
 	support = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID", "xmpp:support@chat.$DOMAIN_NAME" };
 }
 
+support_contact = { "$ADMIN_JID" }
+support_contact_nick = "Admin"
+
 disco_items = {
 	{ "proxy.decent.im", "SOCKS5 proxy service" };
 	{ "chat.decent.im", "Chatrooms" };
@@ -255,7 +268,9 @@ Component "chat.$DOMAIN_NAME" "muc"
 		"muc_mam";
 		-- XEP-0153: vCard-Based Avatar (MUC)
 		"vcard_muc";
+		"muc_local_only";
 	}
+	muc_local_only = { "support@$DOMAIN_NAME" }
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
 Component "proxy.$DOMAIN_NAME" "proxy65"
