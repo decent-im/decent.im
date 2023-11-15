@@ -253,7 +253,7 @@ limit_auth_period = 3600 -- over ... seconds
 limit_auth_max = 1 -- tolerate no more than ... failed attempts
 limit_auth_tarpit_delay = 100 -- delay answer this long
 
-http_upload_quota = 1 * (1024*1024*1024) -- 1 GiB of total stored uploads is allowed per user
+http_upload_quota = 2 * (1024*1024*1024) -- N * (GiB) of total stored uploads is allowed per user
 
 support_room = "support@$DOMAIN_NAME"
 support_room_inviter = "$ADMIN_JID"
