@@ -117,6 +117,12 @@ modules_enabled = {
 		"compliance_2021";
 		"http_health";
 		"support_contact";
+
+		"admin_notify";
+		"admin_web"; -- run get_deps.sh for it to work
+		"checkcerts";
+		"strict_https";
+		"support_room";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -248,6 +254,10 @@ limit_auth_max = 1 -- tolerate no more than ... failed attempts
 limit_auth_tarpit_delay = 100 -- delay answer this long
 
 http_upload_quota = 1 * (1024*1024*1024) -- 1 GiB of total stored uploads is allowed per user
+
+support_room = "support@$DOMAIN_NAME"
+support_room_inviter = "$ADMIN_JID"
+support_room_reason = "Invite new users to the support room"
 
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
