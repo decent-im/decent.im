@@ -1,2 +1,2 @@
 #!/bin/bash
-exec decent.im_update_netfilter_rules
+exec decent.im_update_netfilter_rules >/dev/null
