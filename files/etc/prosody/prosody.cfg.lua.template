@@ -123,6 +123,8 @@ modules_enabled = {
 		"checkcerts";
 		"strict_https";
 		"support_room";
+
+		"register_oob_url";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -137,6 +139,7 @@ modules_disabled = {
 -- Disable account creation by default, for security
 -- For more information see http://prosody.im/doc/creating_accounts
 allow_registration = false
+register_oob_url = "https://decent.im/register/"
 
 -- These are the SSL/TLS-related settings. If you don't want
 -- to use SSL/TLS, you may comment or remove this
