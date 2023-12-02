@@ -2,8 +2,8 @@
 set -e
 
 # Update per-country IP blocks database
-git -C /var/cache/rir-ip pull \
-|| git clone https://github.com/ipverse/rir-ip /var/cache/rir-ip
+git --quiet -C /var/cache/rir-ip pull \
+|| git clone --quiet https://github.com/ipverse/rir-ip /var/cache/rir-ip
 
 # generate new rules
 mkdir -p /etc/nftables.d/{tmp,bkp}
