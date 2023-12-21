@@ -234,7 +234,7 @@ contact_info = {
 	feedback = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
 	sales = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
 	security = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID" };
-	support = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID", "xmpp:support@chat.$DOMAIN_NAME" };
+	support = { "mailto:$ADMIN_EMAIL", "xmpp:$ADMIN_JID", "xmpp:support@chat.$DOMAIN_NAME?join" };
 }
 
 support_contact = { "$ADMIN_JID" }
