@@ -2,7 +2,7 @@
 set -e
 
 # Update per-country IP blocks database
-git --quiet -C /var/cache/rir-ip pull \
+git -C /var/cache/rir-ip pull --quiet \
 || git clone --quiet https://github.com/ipverse/rir-ip /var/cache/rir-ip
 
 # generate new rules
