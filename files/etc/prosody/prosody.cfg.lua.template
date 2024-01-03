@@ -125,6 +125,8 @@ modules_enabled = {
 		"support_room";
 
 		"register_oob_url";
+
+		"log_events";
 }
 
 -- These modules are auto-loaded, but should you want
