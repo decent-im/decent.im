@@ -8,7 +8,12 @@ emerge --sync --quiet
 emerge -qtuDN --keep-going --verbose-conflicts --backtrack=30 --with-bdeps=y @world
 emerge -qt --keep-going @smart-live-rebuild
 revdep-rebuild
-eclean-kernel --num 2 --destructive # it also does `grub-mkconfig -o /boot/grub/grub.cfg`
+
+# eclean-kernel fails when run on empty /boot, which happens in Incus container
+if [[ "$(eclean-kernel --list-kernels | wc -l)" != 0 ]]; then
+	eclean-kernel --num 2 --destructive # it also does `grub-mkconfig -o /boot/grub/grub.cfg`
+fi
+
 decent.im_process_templates
 eselect lua set lua5.4
 
