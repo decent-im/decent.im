@@ -14,8 +14,12 @@ host    replication     all             ::1/128                 trust
 
 # decent.im note: standard entries above --^
 # decent.im custom entries below:
-hostssl replication     all             $PSQL_REPLICA_IP/32     md5
-hostssl all             all             $PSQL_REPLICA_IP/32     md5
+hostssl replication     all             $PSQL_REPLICA_IP        md5
+hostssl replication     all             $PSQL_REPLICA_IP6       md5
+hostssl all             all             $PSQL_REPLICA_IP        md5
+hostssl all             all             $PSQL_REPLICA_IP6       md5
 
 hostssl replication     all             $ADMIN_IP               md5
+hostssl replication     all             $ADMIN_IP6              md5
 hostssl all             all             $ADMIN_IP               md5
+hostssl all             all             $ADMIN_IP6              md5

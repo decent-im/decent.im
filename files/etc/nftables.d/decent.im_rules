@@ -44,22 +44,40 @@ table inet filter {
 			accept \
 			comment "SSH connections from admin addresses: log, accept"
 
+		tcp dport 22 ip6 saddr $ADMIN_IP6_SADDR ct state new \
+			log prefix "New SSH connection from IPv6 admin address: " \
+			counter \
+			accept \
+			comment "SSH connections from IPv6 admin addresses: log, accept"
+
 		tcp dport 22 ct state new \
 			counter \
 			drop \
 			comment "SSH connections from unknown addresses: drop"
 
-		tcp dport 5432 ip saddr $PSQL_REPLICATION_SADDR ct state new \
-			log prefix "New PostgreSQL replication connection: " \
+		tcp dport 5432 ip saddr $PSQL_REPLICATION_IP_SADDR ct state new \
+			log prefix "New PostgreSQL replication connection via IPv4: " \
 			counter \
 			accept \
-			comment "PostgreSQL replication connection from expected address: log, accept"
+			comment "PostgreSQL replication connection from expected IPv4 address: log, accept"
+
+		tcp dport 5432 ip saddr $PSQL_REPLICATION_IP6_SADDR ct state new \
+			log prefix "New PostgreSQL replication connection via IPv6: " \
+			counter \
+			accept \
+			comment "PostgreSQL replication connection from expected IPv6 address: log, accept"
 
 		tcp dport 5432 ip saddr $ADMIN_IP_SADDR ct state new \
-			log prefix "New PostgreSQL replication connection: " \
+			log prefix "New PostgreSQL replication connection from admin address: " \
 			counter \
 			accept \
 			comment "PostgreSQL replication connection from admin address: log, accept"
+
+		tcp dport 5432 ip6 saddr $ADMIN_IP6_SADDR ct state new \
+			log prefix "New PostgreSQL replication connection from IPv6 admin address: " \
+			counter \
+			accept \
+			comment "PostgreSQL replication connection from IPv6 admin address: log, accept"
 
 		tcp dport 5432 \
 			counter \

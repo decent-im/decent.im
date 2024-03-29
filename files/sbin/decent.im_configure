@@ -34,6 +34,12 @@ echo "Used domain name: $DOMAIN_NAME"
 
 ADMIN_IP=${SSH_CLIENT%% *}
 echo "Detected admin IP: $ADMIN_IP"
+if ipcalc --ipv6 "$ADMIN_IP"; then
+	ADMIN_IP6="$ADMIN_IP"
+	ADMIN_IP='127.0.0.1'
+else
+	ADMIN_IP6='::1'
+fi
 
 
 echo "
@@ -41,7 +47,9 @@ export DOMAIN_NAME='$DOMAIN_NAME'
 export D=\"\$DOMAIN_NAME\"
 export EXTERNAL_IP='$EXTERNAL_IP'
 export ADMIN_IP='$ADMIN_IP'
+export ADMIN_IP6='$ADMIN_IP6'
 export PSQL_REPLICA_IP='$ADMIN_IP'
+export PSQL_REPLICA_IP6='$ADMIN_IP6'
 export GITHUB_PAGES_URL='decent-im.github.io'
 
 export XMPP_DB_USER='decent.im'
