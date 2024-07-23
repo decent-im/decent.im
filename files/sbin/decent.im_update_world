@@ -29,4 +29,5 @@ fi
 # Use reload, because restart drops the ruleset first, breaking atomicity.
 rc-service nftables reload
 
+mkdir -p /var/lib/decent.im
 touch /var/lib/decent.im/update_world.done
