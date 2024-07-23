@@ -3,6 +3,10 @@ set -e
 
 . /etc/decent.im/config
 
+if [[ -v HE_DynTXT_Key ]]; then
+	exec decent.im_acme-sh
+fi
+
 # letsencrypt requires port 80
 rc-service nginx stop
 
