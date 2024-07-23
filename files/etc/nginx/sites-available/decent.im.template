@@ -3,6 +3,9 @@ server {
 	listen 443 ssl;
 	server_name $DOMAIN_NAME;
 
+	ssl_certificate /etc/nginx/certs/fullchain.pem;
+	ssl_certificate_key /etc/nginx/certs/privkey.pem;
+
 	access_log /var/log/nginx/$DOMAIN_NAME.access_log main;
 	error_log /var/log/nginx/$DOMAIN_NAME.error_log info;
 
