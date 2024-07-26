@@ -6,7 +6,7 @@ set -x
 
 emerge --sync --quiet
 emerge -qtuDN --keep-going --verbose-conflicts --backtrack=30 --with-bdeps=y @world
-emerge -qt --keep-going @smart-live-rebuild
+emerge -qt --keep-going --getbinpkg=n --usepkg=n @smart-live-rebuild
 revdep-rebuild
 
 # eclean-kernel fails when run on empty /boot, which happens in Incus container
