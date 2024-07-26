@@ -42,3 +42,8 @@ echo "Starting HTTP server ..."
 rc-update add nginx default
 rc-service nginx start
 
+rc-update add nullmailer default
+rc-service nullmailer start
+
+rc-update add turnserver default
+rc-service turnserver start

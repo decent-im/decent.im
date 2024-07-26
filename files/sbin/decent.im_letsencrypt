@@ -2,56 +2,50 @@
 set -e
 
 . /etc/decent.im/config
-
+DOMAINS_OPTS=(
+		-d "$D"
+		-d chat."$D"
+		-d irc."$D"
+		-d proxy."$D"
+		-d pubsub."$D"
+)
 if [[ -v HE_DynTXT_Key ]]; then
-	exec decent.im_acme-sh
+	HE_DynTXT_Key="$HE_DynTXT_Key" acme.sh --issue --server letsencrypt --dns dns_he_dyntxt "${DOMAINS_OPTS[@]}"
+	PRIVK=/root/.acme.sh/"$D"_ecc/"$D".key
+	CHAIN=/root/.acme.sh/"$D"_ecc/fullchain.cer
+
+else
+	# letsencrypt requires port 80
+	rc-service nginx stop
+
+	# Note: changing the set of domains leads to creation of a new dir named domain-0001
+	# Manual intervention is needed
+
+	certbot certonly \
+		--agree-tos \
+		--email "$ADMIN_EMAIL" \
+		--expand \
+		--non-interactive \
+		--standalone \
+		"${DOMAINS_OPTS[@]}"
+	PRIVK=/etc/letsencrypt/live/$D/privkey.pem
+	CHAIN=/etc/letsencrypt/live/$D/fullchain.pem
 fi
 
-# letsencrypt requires port 80
-rc-service nginx stop
+for service in prosody nginx turnserver; do
+	mkdir -p /etc/"$service"/certs
+	chown -R root:"$service" /etc/"$service"/certs/
+	chmod -R u=rwx,g=rx,o= /etc/"$service"/certs/
+	rsync -tv "$PRIVK" /etc/"$service"/certs/privkey.pen
+	rsync -tv "$CHAIN" /etc/"$service"/certs/fullchain.pem
+	chown -R root:"$service" /etc/"$service"/certs/
+	chmod -R u=rwx,g=rx,o= /etc/"$service"/certs/
+done
+# old paths, phase out later. 2024-07-26
+cp "$PRIVK" /etc/prosody/certs/"${D}".key
+cp "$CHAIN" /etc/prosody/certs/"${D}".crt
 
-# Note: changing the set of domains leads to creation of a new dir named domain-0001
-# Manual intervention is needed
-
-certbot certonly \
-	--agree-tos \
-	--email $ADMIN_EMAIL \
-	--expand \
-	--non-interactive \
-	--standalone \
-	-d $D \
-	-d chat.$D \
-	-d irc.$D \
-	-d proxy.$D \
-	-d pubsub.$D \
-	;
-
-# /etc/letsencrypt is u=rwx,g=,o= owned by root
-# prosody and nginx get copies of certificates
-# just because I used it this way
-# but I got tired of it with turnserver
-
-if ! getent group decentim-tls-daemons; then
-	groupadd --users nginx,prosody,turnserver decentim-tls-daemons
-fi
-chgrp -vR decentim-tls-daemons /etc/letsencrypt/{live,archive}
-chmod g=rx -vR /etc/letsencrypt/{live,archive}
-
-cp /etc/letsencrypt/live/$D/privkey.pem   /etc/prosody/certs/${D}.key
-cp /etc/letsencrypt/live/$D/fullchain.pem /etc/prosody/certs/${D}.crt
-chown -R root:prosody /etc/prosody/certs/
-chmod -R u=rwx,g=rx,o= /etc/prosody/certs/
-
-mkdir -p /etc/nginx/certs
-chown nginx:root /etc/nginx/certs/
-chmod u=rx,g=,o= /etc/nginx/certs/
-cp /etc/letsencrypt/live/$D/* /etc/nginx/certs/
-mkdir -p /etc/nginx/conf.d
-echo '
-ssl_certificate /etc/nginx/certs/fullchain.pem;
-ssl_certificate_key /etc/nginx/certs/privkey.pem;
-' > /etc/nginx/conf.d/certs.conf
-
+# TODO postgresql
 
 set +e
 
@@ -61,7 +55,10 @@ RET_PROSODY=$?
 rc-service nginx restart
 RET_NGINX=$?
 
-if [[ $RET_PROSODY != 0 ]] || [[ $RET_NGINX != 0 ]]
+rc-service turnserver restart
+RET_TURNSERVER=$?
+
+if [[ $RET_PROSODY != 0 ]] || [[ $RET_NGINX != 0 ]] || [[ $RET_TURNSERVER != 0 ]]
 then
 	exit 1
 else
