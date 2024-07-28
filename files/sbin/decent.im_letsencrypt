@@ -36,7 +36,7 @@ for service in prosody nginx turnserver; do
 	mkdir -p /etc/"$service"/certs
 	chown -R root:"$service" /etc/"$service"/certs/
 	chmod -R u=rwx,g=rx,o= /etc/"$service"/certs/
-	rsync -tv "$PRIVK" /etc/"$service"/certs/privkey.pen
+	rsync -tv "$PRIVK" /etc/"$service"/certs/privkey.pem
 	rsync -tv "$CHAIN" /etc/"$service"/certs/fullchain.pem
 	chown -R root:"$service" /etc/"$service"/certs/
 	chmod -R u=rwx,g=rx,o= /etc/"$service"/certs/
