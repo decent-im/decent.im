@@ -38,12 +38,14 @@ for service in prosody nginx turnserver; do
 	chmod -R u=rwx,g=rx,o= /etc/"$service"/certs/
 	rsync -tv "$PRIVK" /etc/"$service"/certs/privkey.pem
 	rsync -tv "$CHAIN" /etc/"$service"/certs/fullchain.pem
+	if [[ "$service" == prosody ]]; then
+		# old paths, phase out later. 2024-07-26
+		ln -svnf privkey.pem   /etc/"$service"/certs/"${D}".key
+		ln -svnf fullchain.pem /etc/"$service"/certs/"${D}".crt
+	fi
 	chown -R root:"$service" /etc/"$service"/certs/
 	chmod -R u=rwx,g=rx,o= /etc/"$service"/certs/
 done
-# old paths, phase out later. 2024-07-26
-cp "$PRIVK" /etc/prosody/certs/"${D}".key
-cp "$CHAIN" /etc/prosody/certs/"${D}".crt
 
 # TODO postgresql
 
