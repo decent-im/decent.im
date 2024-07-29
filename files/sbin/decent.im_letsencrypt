@@ -10,7 +10,15 @@ DOMAINS_OPTS=(
 		-d pubsub."$D"
 )
 if [[ -v HE_DynTXT_Key ]]; then
+	set +e
 	HE_DynTXT_Key="$HE_DynTXT_Key" acme.sh --issue --server letsencrypt --dns dns_he_dyntxt "${DOMAINS_OPTS[@]}"
+	if [[ "$?" == 2 ]]; then
+		# Domains not changed.
+		# Skip, Next renewal time is: ...
+		# Add '--force' to force to renew.
+		true
+	fi
+	set -e
 	PRIVK=/root/.acme.sh/"$D"_ecc/"$D".key
 	CHAIN=/root/.acme.sh/"$D"_ecc/fullchain.cer
 
