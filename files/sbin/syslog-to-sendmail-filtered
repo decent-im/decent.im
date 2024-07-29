@@ -3,5 +3,5 @@ set -e
 set -u
 set -o pipefail
 
-grep -v ' dhcpcd[[][0-9]\+[]]: eth0: truncated packet (0) from ' \
+grep -v ' dhcpcd[[][0-9]\+[]]: e[a-z0-9]\+: truncated packet (0) from ' \
 | syslog-to-sendmail

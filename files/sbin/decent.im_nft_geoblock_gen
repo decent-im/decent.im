@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import subprocess
+
 def format_entries(filepath):
     with open(filepath) as f:
         data = f.read()
@@ -27,10 +29,15 @@ print('''        }
         auto-merge
         elements = {''')
 print(format_entries('/var/cache/rir-ip/country/ru/ipv6-aggregated.txt'))
+ETH = subprocess.check_output('ls /sys/class/net | grep ^e | head -n1', shell=True, text=True).strip()
 print('''        }
     }
     chain filter-chain {
-        type filter hook ingress device "eth0" priority -190; policy accept;
+''')
+print(f'''
+        type filter hook ingress device "{ETH}" priority -190; policy accept;
+''')
+print('''
         ip saddr @filter-v4 \
                 log prefix "RU dropped: " \
                 counter \
