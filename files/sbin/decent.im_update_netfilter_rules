@@ -22,4 +22,4 @@ mv "$tmpfile" /etc/nftables.d/decent.im_geoblock
 # one possible way:
 # /var/lib/nftables/rules-save -> include /etc/nftables.conf
 # /etc/nftables.conf -> flush ruleset; include /etc/nftables.d/{a,b,c}
-/etc/init.d/nftables reload
+/etc/init.d/nftables reload || /etc/init.d/nftables start

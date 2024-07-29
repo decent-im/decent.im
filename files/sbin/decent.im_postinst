@@ -9,7 +9,7 @@ rc-update add syslog-ng default
 rc-service syslog-ng start
 
 rc-update add nftables default
-rc-service nftables start
+decent.im_update_netfilter_rules # starts the service
 
 rc-update add cronie default
 rc-service cronie start
