@@ -1,0 +1,10 @@
+# belongs to decent-im package
+
+/var/log/nginx/*_log.json {
+	missingok
+	delaycompress
+	sharedscripts
+	postrotate
+		test -r /run/nginx.pid && kill -USR1 `cat /run/nginx.pid`
+	endscript
+}

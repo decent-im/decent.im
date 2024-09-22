@@ -7,6 +7,7 @@ server {
 	ssl_certificate_key /etc/nginx/certs/privkey.pem;
 
 	access_log /var/log/nginx/$DOMAIN_NAME.access_log main;
+	access_log /var/log/nginx/$DOMAIN_NAME.access_log.json json_log_format;
 	error_log /var/log/nginx/$DOMAIN_NAME.error_log info;
 
 	root /var/www/html;
