@@ -10,8 +10,9 @@ DOMAINS_OPTS=(
 		-d pubsub."$D"
 )
 if [[ -v HE_DynTXT_Key ]]; then
+	ACMESH_HOME=/etc/acme-sh
 	set +e
-	HE_DynTXT_Key="$HE_DynTXT_Key" acme.sh --issue --server letsencrypt --dns dns_he_dyntxt "${DOMAINS_OPTS[@]}"
+	HE_DynTXT_Key="$HE_DynTXT_Key" acme.sh --home "$ACMESH_HOME" --issue --server letsencrypt --dns dns_he_dyntxt "${DOMAINS_OPTS[@]}"
 	if [[ "$?" == 2 ]]; then
 		# Domains not changed.
 		# Skip, Next renewal time is: ...
@@ -19,8 +20,8 @@ if [[ -v HE_DynTXT_Key ]]; then
 		true
 	fi
 	set -e
-	PRIVK=/root/.acme.sh/"$D"_ecc/"$D".key
-	CHAIN=/root/.acme.sh/"$D"_ecc/fullchain.cer
+	PRIVK=$ACMESH_HOME/"$D"_ecc/"$D".key
+	CHAIN=$ACMESH_HOME/"$D"_ecc/fullchain.cer
 
 else
 	# letsencrypt requires port 80
