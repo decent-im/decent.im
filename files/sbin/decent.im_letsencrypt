@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+set -x
+set -euo pipefail
 
 . /etc/decent.im/config
 DOMAINS_OPTS=(
@@ -13,11 +14,15 @@ if [[ -v HE_DynTXT_Key ]]; then
 	ACMESH_HOME=/etc/acme-sh
 	set +e
 	HE_DynTXT_Key="$HE_DynTXT_Key" acme.sh --home "$ACMESH_HOME" --issue --server letsencrypt --dns dns_he_dyntxt "${DOMAINS_OPTS[@]}"
-	if [[ "$?" == 2 ]]; then
+	RC=$?
+	echo "acme.sh exit code is $RC"
+	if [[ "$RC" == 2 ]]; then
 		# Domains not changed.
 		# Skip, Next renewal time is: ...
 		# Add '--force' to force to renew.
 		true
+	elif [[ "$RC" != 0 ]]; then
+		exit "$RC"
 	fi
 	set -e
 	PRIVK=$ACMESH_HOME/"$D"_ecc/"$D".key
